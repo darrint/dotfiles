@@ -36,6 +36,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    pkgs.killall
     pkgs._1password
     pkgs._1password-gui
     pkgs.direnv
@@ -47,6 +48,9 @@
     pkgs.gimp
     pkgs.easyeffects
     pkgs.nixfmt-rfc-style
+    pkgs.reaper
+    pkgs.musescore
+    pkgs.frotz
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

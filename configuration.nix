@@ -29,7 +29,6 @@
   # Enable networking
   networking.networkmanager.enable = true;
   networking.extraHosts = ''
-    192.168.2.108 nixos-test
   '';
 
   # Set your time zone.
