@@ -103,6 +103,7 @@
     ];
     packages = with pkgs; [
       firefox
+      obs-studio
       #  thunderbird
     ];
   };
