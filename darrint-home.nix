@@ -1,6 +1,10 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
+#  imports = [
+#    inputs.nixvim.homeManagerModules.nixvim
+#  ];
+
   # nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: true;
   # Home Manager needs a bit of information about you and the paths it should
@@ -51,6 +55,12 @@
     pkgs.reaper
     pkgs.musescore
     pkgs.frotz
+    pkgs.wl-clipboard
+    pkgs.zk
+    pkgs.nb
+    pkgs.fzf
+    pkgs.ripgrep
+    pkgs.foot
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -97,7 +107,42 @@
     vimAlias = true;
     viAlias = true;
     defaultEditor = true;
+    plugins = [
+      pkgs.vimPlugins.which-key-nvim
+      (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
+        p.tree-sitter-nix
+        p.tree-sitter-vim
+        p.tree-sitter-bash
+        p.tree-sitter-lua
+        p.tree-sitter-python
+        p.tree-sitter-json
+        p.tree-sitter-vimdoc
+        p.tree-sitter-elixir
+      ]))
+      pkgs.vimPlugins.lsp-zero-nvim
+      pkgs.vimPlugins.nvim-lspconfig
+      pkgs.vimPlugins.telescope-nvim
+      pkgs.vimPlugins.autoclose-nvim
+      pkgs.vimPlugins.lualine-nvim
+      pkgs.vimPlugins.adwaita-nvim
+      pkgs.vimPlugins.vim-better-whitespace
+    ];
+    extraLuaConfig =  builtins.readFile ./darrint-nvim-init.lua;
+    extraPackages = [
+      pkgs.pylyzer
+      pkgs.nixd
+      pkgs.elixir-ls
+      pkgs.lexical
+      pkgs.gopls
+      pkgs.bash-language-server
+    ];
   };
+#  programs.nixvim = {
+#    enable = true;
+#    vimAlias = true;
+#    viAlias = true;
+#    defaultEditor = true;
+#  };
   programs.git = {
     enable = true;
     userName = "darrint";
@@ -110,4 +155,13 @@
   #   polkitPolicyOwners = [ "darrint" ];
   # };
   programs.firefox.enable = true;
+  programs.direnv.enable = true;
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-backgroundremoval
+      obs-gradient-source
+    ];
+  };
 }

@@ -19,6 +19,16 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # v4l2loopback for OBS, etc.
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    v4l2loopback
+  ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=1 card_label="Loopback Cam" exclusive_caps=1
+  '';
+  security.polkit.enable = true;
+
+
   networking.hostName = "nixoslaptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -91,6 +101,7 @@
   # services.xserver.libinput.enable = true;
 
   services.flatpak.enable = true;
+  services.fwupd.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.darrint = {
@@ -103,13 +114,23 @@
     ];
     packages = with pkgs; [
       firefox
-      obs-studio
-      #  thunderbird
+      logseq
+    ];
+  };
+  fonts = {
+    fontDir.enable = true;
+    packages = with pkgs; [
+      inconsolata-nerdfont
+      terminus-nerdfont
     ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  
+ # xdg.portal = {
+ #   enable = true;
+ # };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -124,6 +145,32 @@
     polkitPolicyOwners = [ "darrint" ];
   };
   programs.hyprland.enable = true;
+
+  services.postgresql = {
+    enable = true;
+    enableTCPIP = true;
+    # port = 5432;
+    authentication = pkgs.lib.mkOverride 10 ''
+      #type database  DBuser  auth-method
+      local all       all     trust
+
+      #type database DBuser origin-address auth-method
+      # ipv4
+      host  all      all     127.0.0.1/32   scram-sha-256
+      # ipv6
+      host all       all     ::1/128        scram-sha-256
+    '';
+    initialScript = pkgs.writeText "backend-initScript" ''
+      CREATE ROLE doubloon_dev WITH LOGIN PASSWORD 'password' CREATEDB;
+      CREATE ROLE doubloon_test WITH LOGIN PASSWORD 'password' CREATEDB;
+      GRANT ALL PRIVILEGES ON DATABASE doubloon_dev TO doubloon_dev;
+      GRANT ALL PRIVILEGES ON DATABASE doubloon_test TO doubloon_test;
+      \c template1
+      CREATE EXTENSION IF NOT EXISTS citext;
+      CREATE DATABASE doubloon_dev WITH OWNER = doubloon_dev;
+      CREATE DATABASE doubloon_test WITH OWNER = doubloon_test;
+    '';
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
