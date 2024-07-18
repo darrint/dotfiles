@@ -126,6 +126,7 @@
       pkgs.vimPlugins.lualine-nvim
       pkgs.vimPlugins.adwaita-nvim
       pkgs.vimPlugins.vim-better-whitespace
+      pkgs.vimPlugins.better-escape-nvim
     ];
     extraLuaConfig =  builtins.readFile ./darrint-nvim-init.lua;
     extraPackages = [

@@ -45,6 +45,7 @@ require("autoclose").setup({
     disabled_filetypes = {"markdown", "text"}
   }
 });
+require("better_escape").setup()
 require("lualine").setup();
 vim.cmd([[colorscheme adwaita]])
 
