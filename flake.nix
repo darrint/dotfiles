@@ -5,14 +5,19 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     nixvim = {
-        url = "github:nix-community/nixvim";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprland-starter = {
+      url = "github:mylinuxforwork/dotfiles";
+      flake = false;
     };
   };
 
   outputs =
     inputs@{
-      self,
+      # self,
       nixpkgs,
       home-manager,
       ...
@@ -33,7 +38,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.darrint = import ./darrint-home.nix;
-	      home-manager.extraSpecialArgs.inputs = inputs;
+              home-manager.extraSpecialArgs.inputs = inputs;
             }
           ];
         };

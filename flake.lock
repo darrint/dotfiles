@@ -166,6 +166,22 @@
         "type": "github"
       }
     },
+    "hyprland-starter": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1722023457,
+        "narHash": "sha256-1J1nEY4OCqfB5kkiEtxSuqr/w0mprqdebhJqTR9tnMI=",
+        "owner": "mylinuxforwork",
+        "repo": "dotfiles",
+        "rev": "a0a9951519630378dd7e7d37d715032dc439c854",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mylinuxforwork",
+        "repo": "dotfiles",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -249,6 +265,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "hyprland-starter": "hyprland-starter",
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim"
       }

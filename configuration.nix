@@ -1,8 +1,9 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -14,20 +15,21 @@
     "nix-command"
     "flakes"
   ];
+  nix.settings = {
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # v4l2loopback for OBS, etc.
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    v4l2loopback
-  ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
   boot.extraModprobeConfig = ''
     options v4l2loopback devices=1 video_nr=1 card_label="Loopback Cam" exclusive_caps=1
   '';
   security.polkit.enable = true;
-
 
   networking.hostName = "nixoslaptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -38,8 +40,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.extraHosts = ''
-  '';
+  networking.extraHosts = '''';
 
   # Set your time zone.
   time.timeZone = "America/Indiana/Indianapolis";
@@ -112,6 +113,9 @@
       "wheel"
       "dialout"
     ];
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr1N+n9997wxRQ+Ss3oj1Ztg726vSVMelxdoSDkM/kqUL6ylELfyiF6ZYeZbTftd4TzJRW8zloltpVE1GnoaNnm/0clLCtJK6gQRNBKx+JBZaF26WpH0yo+Vt2puvajAchrfpzZl/HqZL5RscY+Gs8hS+u7IfbWQ8o/JhyUsY2rgsPSw58LQS8br22EZAcBCOMLXffer7l5489/g83sTKdgyvW2kWq+E97uMswJ2ytAhNbCdYDIGuceHymIVkNAmJ6FS3ykCiOthYGCNIWReR4VQRMix0wqxxxfXrtSXyYio3lhUTEnA2jWmJiVOfy94vRfkMFopuDOp2nOIxbKJhl"
+    ];
     packages = with pkgs; [
       firefox
       logseq
@@ -127,10 +131,10 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
- # xdg.portal = {
- #   enable = true;
- # };
+
+  xdg.portal = {
+    wlr.enable = lib.mkForce true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -144,7 +148,25 @@
     enable = true;
     polkitPolicyOwners = [ "darrint" ];
   };
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+
+  };
+  programs.hyprlock.enable = true;
+  services.hypridle.enable = true;
+
+  programs.wayfire.enable = true;
+
+  programs.steam = {
+    enable = true;
+    # Open ports in the firewall for Steam Remote Play
+    remotePlay.openFirewall = true;
+    # Open ports in the firewall for Source Dedicated Server
+    dedicatedServer.openFirewall = true;
+    # Open ports in the firewall for Steam Local Network Game Transfers
+    localNetworkGameTransfers.openFirewall = true;
+  };
 
   services.postgresql = {
     enable = true;
@@ -183,7 +205,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
