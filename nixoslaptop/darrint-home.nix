@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, localPackages, ... }:
 
 {
   imports = [ ./darrint-hyprland.nix ];
@@ -19,6 +19,16 @@
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  # stylix.targets.neovim.enable = false;
+
+  fonts = {
+    fontconfig = {
+      defaultFonts = {
+        monospace = ["Iosevka NFM Light"];
+      };
+    };
+  };
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
@@ -38,11 +48,13 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    pkgs.libsForQt5.qt5.qtwayland
+    pkgs.kdePackages.qtwayland
     pkgs.killall
     pkgs._1password
     pkgs._1password-gui
     pkgs.direnv
-    pkgs.waybar
+    # pkgs.waybar
     pkgs.fuzzel
     pkgs.vscode
     pkgs.zoom-us
@@ -58,8 +70,20 @@
     pkgs.nb
     pkgs.fzf
     pkgs.ripgrep
+    pkgs.fd
     pkgs.foot
     pkgs.libnotify
+    pkgs.gnomeExtensions.blur-my-shell
+    pkgs.gnomeExtensions.tiling-shell
+    pkgs.devenv
+    pkgs.htop
+    pkgs.tuckr
+    pkgs.kitty
+    pkgs.lolcat
+    pkgs.figlet
+    pkgs.zellij
+    localPackages.darrint-dotfiles2
+    localPackages.darrint-utils
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -93,12 +117,12 @@
   #  /etc/profiles/per-user/darrint/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.bash.enable = true;
+  programs.zsh.enable = true;
   programs.fish.enable = true;
   programs.nushell.enable = true;
   programs.neovim = {
@@ -120,14 +144,18 @@
       ]))
       pkgs.vimPlugins.lsp-zero-nvim
       pkgs.vimPlugins.nvim-lspconfig
+      pkgs.vimPlugins.nvim-cmp
+      pkgs.vimPlugins.cmp-nvim-lsp
+      pkgs.vimPlugins.cmp-buffer
       pkgs.vimPlugins.telescope-nvim
       pkgs.vimPlugins.autoclose-nvim
       pkgs.vimPlugins.lualine-nvim
       pkgs.vimPlugins.adwaita-nvim
       pkgs.vimPlugins.vim-better-whitespace
       pkgs.vimPlugins.better-escape-nvim
+      pkgs.vimPlugins.modus-themes-nvim
+      pkgs.vimPlugins.gitgutter
     ];
-    extraLuaConfig = builtins.readFile ./darrint-nvim-init.lua;
     extraPackages = [
       pkgs.pylyzer
       pkgs.nixd
@@ -135,26 +163,32 @@
       pkgs.lexical
       pkgs.gopls
       pkgs.bash-language-server
+      pkgs.fd
+      pkgs.ripgrep
+      pkgs.lua-language-server
     ];
+    extraLuaConfig = ''
+      -- Add a directory to the package.path
+      package.path = package.path .. ';~/.config/dotfiles2/nvim'
+
+      -- Now you can require the file
+      -- local my_config = require('nvim')
+
+      dofile(vim.fn.stdpath("config") .. '/../dotfiles2/nvim/init.lua')
+      '';
   };
-  #  programs.nixvim = {
-  #    enable = true;
-  #    vimAlias = true;
-  #    viAlias = true;
-  #    defaultEditor = true;
-  #  };
   programs.git = {
     enable = true;
     userName = "darrint";
     userEmail = "darrint@fastmail.com";
   };
-  programs.kitty.enable = true;
   # programs._1password.enable = true;
   # programs._1password-gui = {
   #   enable = true;
   #   polkitPolicyOwners = [ "darrint" ];
   # };
   programs.firefox.enable = true;
+  programs.brave.enable = true;
   programs.direnv.enable = true;
   programs.obs-studio = {
     enable = true;
@@ -164,4 +198,42 @@
       obs-gradient-source
     ];
   };
+  programs.tmux = {
+    enable = true;
+    plugins = with pkgs.tmuxPlugins; [
+      resurrect
+      sensible
+    ];
+  };
+  programs.waybar = {
+    enable = true;
+  };
+
+  home.activation = {
+    installdotfiles = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      run ${localPackages.darrint-dotfiles2}/bin/installdotfiles
+    '';
+  };
+
+  services.ssh-agent.enable = true;
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+  };
+
+  # systemd = {
+  #   user.services.polkit-kde-authentication-agent-1 = {
+  #     Unit.Description = "polkit-kde-authentication-agent-1";
+  #     # wantedBy = [ "graphical-session.target" ];
+  #     # wants = [ "graphical-session.target" ];
+  #     # after = [ "graphical-session.target" ];
+  #     Service = {
+  #         Type = "simple";
+  #         ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
+  #         Restart = "on-failure";
+  #         RestartSec = 1;
+  #         TimeoutStopSec = 10;
+  #       };
+  #   };
+  # };
 }

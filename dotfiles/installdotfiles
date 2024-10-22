@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+base_dir=$(realpath ${1:-$(dirname $0)})
+
+for config in $base_dir/config/*; do
+  if [ -d $config/dot-config ]; then
+    for config_dir in $config/dot-config/*; do
+      dest_path=$HOME/.config/$(basename $config_dir)
+      echo >&2 $dest_path
+      if [ -L $dest_path ]; then
+        echo >&2 Removing $dest_path since it is a link.
+        rm $dest_path
+      fi
+      if ! [ -e $dest_path ]; then
+        echo >&2 Linking to $config_dir
+        ln -s $config_dir $dest_path
+      else
+        echo >&2 $dest_path already exists.
+        ls -l $dest_path >&2
+        exit 2
+      fi
+    done
+  fi
+done

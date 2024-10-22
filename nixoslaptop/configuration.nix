@@ -4,12 +4,40 @@
   lib,
   ...
 }:
-
-{
+let
+  iosevka-nfm = (pkgs.nerdfonts.override { fonts = ["Iosevka"]; });
+  monoid-nfm = (pkgs.nerdfonts.override { fonts = ["Monoid"]; });
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+
+  stylix = {
+    enable = true;
+    image = ../wallpaper/kalen-emsley-Bkci_8qcdvQ-unsplash.jpg;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/evenok-dark.yaml";
+    fonts = {
+      sansSerif = {
+        name = "Inter";
+        package = pkgs.inter;
+      };
+      monospace = {
+        name = "Iosevka";
+        package = iosevka-nfm;
+      };
+    };
+  };
+  fonts = {
+    fontDir.enable = true;
+    packages = with pkgs; [
+      inconsolata-nerdfont
+      terminus-nerdfont
+      iosevka-nfm
+      monoid-nfm
+      inter
+    ];
+  };
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -18,6 +46,7 @@
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    trusted-users = [ "root" "darrint" ];
   };
 
   # Bootloader.
@@ -64,7 +93,7 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
@@ -82,7 +111,8 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # deprecated:
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -121,13 +151,6 @@
       logseq
     ];
   };
-  fonts = {
-    fontDir.enable = true;
-    packages = with pkgs; [
-      inconsolata-nerdfont
-      terminus-nerdfont
-    ];
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -141,6 +164,7 @@
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
+    cachix
   ];
 
   programs._1password.enable = true;
@@ -154,7 +178,7 @@
 
   };
   programs.hyprlock.enable = true;
-  services.hypridle.enable = true;
+  # services.hypridle.enable = true;
 
   programs.wayfire.enable = true;
 
@@ -166,6 +190,12 @@
     dedicatedServer.openFirewall = true;
     # Open ports in the firewall for Steam Local Network Game Transfers
     localNetworkGameTransfers.openFirewall = true;
+  };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = false;
+    flake = "/home/darrint/nixos";
   };
 
   services.postgresql = {
@@ -208,7 +238,12 @@
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    8000
+    4000
+    8080
+    8081
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

@@ -4,10 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    stylix.url = "github:danth/stylix";
 
     hyprland-starter = {
       url = "github:mylinuxforwork/dotfiles";
@@ -17,9 +14,10 @@
 
   outputs =
     inputs@{
-      # self,
+      self,
       nixpkgs,
       home-manager,
+      stylix,
       ...
     }:
     let
@@ -28,20 +26,28 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
+      packages.${system} = {
+        dotfiles = (pkgs.callPackage ./dotfiles {inherit pkgs;});
+        darrint-dotfiles2 = (pkgs.callPackage ./dotfiles2 {inherit pkgs;});
+        darrint-utils = (pkgs.callPackage ./darrint-utils {inherit pkgs;});
+      };
       nixosConfigurations = {
         nixoslaptop = lib.nixosSystem {
           inherit system;
           modules = [
-            ./configuration.nix
+            stylix.nixosModules.stylix
+            ./nixoslaptop/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.darrint = import ./darrint-home.nix;
+              home-manager.users.darrint = import ./nixoslaptop/darrint-home.nix;
               home-manager.extraSpecialArgs.inputs = inputs;
+              home-manager.extraSpecialArgs.localPackages = self.packages.${system};
             }
           ];
         };
       };
     };
 }
+
