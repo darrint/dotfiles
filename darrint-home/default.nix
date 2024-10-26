@@ -41,6 +41,7 @@
     pkgs.lolcat
     pkgs.figlet
     pkgs.zellij
+    pkgs.nh
     localPackages.darrint-dotfiles2
     localPackages.darrint-utils
   ];

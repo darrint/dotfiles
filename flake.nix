@@ -24,19 +24,20 @@
       nixpkgs-stable,
       home-manager-stable,
       stylix,
+      nixvim,
       ...
     }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
       pkgs = nixpkgs.legacyPackages.${system};
-      lib-stable = nixpkgs-stable.lib
+      lib-stable = nixpkgs-stable.lib;
       pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       inputs-stable = {
-        inherit self stylix;
+        inherit self stylix nixvim;
         lib = lib-stable;
         pkgs = pkgs-stable;
-        home-manager = home-manager-stble;
+        home-manager = home-manager-stable;
       };
     in
     {
@@ -70,7 +71,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.darrint = import ./nixos-test/darrint-home.nix;
+              home-manager.users.darrint = import ./darrint-home;
               home-manager.extraSpecialArgs.inputs = inputs-stable;
               home-manager.extraSpecialArgs.localPackages = self.packages.${system};
             }
