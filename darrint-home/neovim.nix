@@ -32,7 +32,7 @@
 
     plugins = {
       better-escape.enable = true;
-      surround.enable = true;
+      vim-surround.enable = true;
       gitgutter.enable = true;
       web-devicons.enable = true;
       which-key.enable = true;

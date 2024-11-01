@@ -3,16 +3,17 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     stylix.url = "github:danth/stylix";
     nixvim.url = "github:nix-community/nixvim";
 
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-23.11";
-    home-manager-stable.url = "github:nix-community/home-manager?ref=release-23.11";
-
-    hyprland-starter = {
-      url = "github:mylinuxforwork/dotfiles";
-      flake = false;
+    home-manager-stable = {
+      url = "github:nix-community/home-manager?ref=release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
 

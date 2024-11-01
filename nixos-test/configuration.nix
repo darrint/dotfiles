@@ -49,9 +49,6 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
-  
-
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -124,32 +121,6 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
-  services.postgresql = {
-    enable = true;
-    enableTCPIP = true;
-    # port = 5432;
-    authentication = pkgs.lib.mkOverride 10 ''
-      #type database  DBuser  auth-method
-      local all       all     trust
-
-      #type database DBuser origin-address auth-method
-      # ipv4
-      host  all      all     127.0.0.1/32   scram-sha-256
-      # ipv6
-      host all       all     ::1/128        scram-sha-256
-    '';
-    initialScript = pkgs.writeText "backend-initScript" ''
-      CREATE ROLE doubloon_dev WITH LOGIN PASSWORD 'password' CREATEDB;
-      CREATE ROLE doubloon_test WITH LOGIN PASSWORD 'password' CREATEDB;
-      GRANT ALL PRIVILEGES ON DATABASE doubloon_dev TO doubloon_dev;
-      GRANT ALL PRIVILEGES ON DATABASE doubloon_test TO doubloon_test;
-      \c template1
-      CREATE EXTENSION IF NOT EXISTS citext;
-      CREATE DATABASE doubloon_dev WITH OWNER = doubloon_dev;
-      CREATE DATABASE doubloon_test WITH OWNER = doubloon_test;
-    '';
-  };
 
   services.avahi = {
     enable = true;
