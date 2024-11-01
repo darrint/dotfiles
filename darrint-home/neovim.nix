@@ -38,6 +38,7 @@
       which-key.enable = true;
       lualine.enable = true;
       transparent.enable = true;
+      zk.enable = true;
       telescope = {
         enable = true;
 	keymaps = {
