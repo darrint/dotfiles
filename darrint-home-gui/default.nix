@@ -5,6 +5,7 @@
   imports = [
     ../darrint-home
     ./hyprland.nix
+    ./waybar.nix
   ];
 
   fonts = {

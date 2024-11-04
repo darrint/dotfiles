@@ -44,7 +44,6 @@
     {
       packages.${system} = {
         dotfiles = (pkgs.callPackage ./dotfiles {inherit pkgs;});
-        darrint-dotfiles2 = (pkgs.callPackage ./dotfiles2 {inherit pkgs;});
         darrint-utils = (pkgs.callPackage ./darrint-utils {inherit pkgs;});
       };
       nixosConfigurations = {

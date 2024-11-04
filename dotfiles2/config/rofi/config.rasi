@@ -1,6 +1,0 @@
-@theme "sidebar2.rasi"
-
-configuration {
-  kb-cancel: "!Super_L,Escape";
-}
-

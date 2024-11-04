@@ -9,8 +9,4 @@ dest_dir=$config/dotfiles2
 rm -f $dest_dir
 
 ln -s $base_dir/config $dest_dir
-rm -f $config/waybar/config
-ln -s $dest_dir/waybar/config $config/waybar/config
 
-# rm -f $config/nvim/init.lua
-# ln -s $dest_dir/nvim/init.lua $config/nvim/init.lua

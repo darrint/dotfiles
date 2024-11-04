@@ -20,7 +20,7 @@ in {
     fonts = {
       sansSerif = {
         name = "Inter";
-        package = pkgs.inter;
+          package = pkgs.inter;
       };
       monospace = {
         name = "Iosevka";
@@ -146,10 +146,7 @@ in {
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr1N+n9997wxRQ+Ss3oj1Ztg726vSVMelxdoSDkM/kqUL6ylELfyiF6ZYeZbTftd4TzJRW8zloltpVE1GnoaNnm/0clLCtJK6gQRNBKx+JBZaF26WpH0yo+Vt2puvajAchrfpzZl/HqZL5RscY+Gs8hS+u7IfbWQ8o/JhyUsY2rgsPSw58LQS8br22EZAcBCOMLXffer7l5489/g83sTKdgyvW2kWq+E97uMswJ2ytAhNbCdYDIGuceHymIVkNAmJ6FS3ykCiOthYGCNIWReR4VQRMix0wqxxxfXrtSXyYio3lhUTEnA2jWmJiVOfy94vRfkMFopuDOp2nOIxbKJhl"
     ];
-    packages = with pkgs; [
-      firefox
-      logseq
-    ];
+    packages = [ ];
   };
 
   # Allow unfree packages
@@ -196,32 +193,6 @@ in {
     enable = true;
     clean.enable = false;
     flake = "/home/darrint/nixos";
-  };
-
-  services.postgresql = {
-    enable = true;
-    enableTCPIP = true;
-    # port = 5432;
-    authentication = pkgs.lib.mkOverride 10 ''
-      #type database  DBuser  auth-method
-      local all       all     trust
-
-      #type database DBuser origin-address auth-method
-      # ipv4
-      host  all      all     127.0.0.1/32   scram-sha-256
-      # ipv6
-      host all       all     ::1/128        scram-sha-256
-    '';
-    initialScript = pkgs.writeText "backend-initScript" ''
-      CREATE ROLE doubloon_dev WITH LOGIN PASSWORD 'password' CREATEDB;
-      CREATE ROLE doubloon_test WITH LOGIN PASSWORD 'password' CREATEDB;
-      GRANT ALL PRIVILEGES ON DATABASE doubloon_dev TO doubloon_dev;
-      GRANT ALL PRIVILEGES ON DATABASE doubloon_test TO doubloon_test;
-      \c template1
-      CREATE EXTENSION IF NOT EXISTS citext;
-      CREATE DATABASE doubloon_dev WITH OWNER = doubloon_dev;
-      CREATE DATABASE doubloon_test WITH OWNER = doubloon_test;
-    '';
   };
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -157,7 +157,7 @@
 
   home.activation = {
     installdotfiles = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      run ${localPackages.darrint-dotfiles2}/bin/installdotfiles
+      echo "activation"
     '';
   };
 
