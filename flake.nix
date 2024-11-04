@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs?ref=master";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,6 +22,7 @@
     inputs@{
       self,
       nixpkgs,
+      nixpkgs-master,
       home-manager,
       nixpkgs-stable,
       home-manager-stable,
@@ -40,11 +42,15 @@
         pkgs = pkgs-stable;
         home-manager = home-manager-stable;
       };
+      pkgs-master = nixpkgs-master.legacyPackages.${system};
     in
     {
       packages.${system} = {
-        dotfiles = (pkgs.callPackage ./dotfiles {inherit pkgs;});
         darrint-utils = (pkgs.callPackage ./darrint-utils {inherit pkgs;});
+      };
+      packages.fixed-7zz = pkgs-master._7zz;
+      overlays.unstable = final: prev: {
+        _7zz = self.packages.fixed-7zz;
       };
       nixosConfigurations = {
         nixoslaptop = lib.nixosSystem {
@@ -52,6 +58,7 @@
           modules = [
             stylix.nixosModules.stylix
             ./nixoslaptop/configuration.nix
+            { nixpkgs.overlays = [ self.overlays.unstable ]; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

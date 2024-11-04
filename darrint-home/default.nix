@@ -27,7 +27,6 @@
   # environment.
   home.packages = [
     pkgs.killall
-    pkgs._1password
     pkgs.direnv
     pkgs.nixfmt-rfc-style
     pkgs.frotz
@@ -42,7 +41,6 @@
     pkgs.figlet
     pkgs.zellij
     pkgs.nh
-    localPackages.darrint-dotfiles2
     localPackages.darrint-utils
   ];
 
@@ -141,11 +139,6 @@
     userName = "darrint";
     userEmail = "darrint@fastmail.com";
   };
-  # programs._1password.enable = true;
-  # programs._1password-gui = {
-  #   enable = true;
-  #   polkitPolicyOwners = [ "darrint" ];
-  # };
   programs.direnv.enable = true;
   programs.tmux = {
     enable = true;

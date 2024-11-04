@@ -149,8 +149,12 @@ in {
     packages = [ ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config =  {
+    allowUnfree = true;
+    allowInsecurePredicate = pkg:
+    builtins.trace (lib.getName pkg)
+    builtins.elem (lib.getName pkg) [ "electron" ];
+  };
 
   xdg.portal = {
     wlr.enable = lib.mkForce true;
