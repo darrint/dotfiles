@@ -1,0 +1,8 @@
+#!/bin/sh
+
+file=$(fzf)
+
+if [ -n "$file" ]; then
+  exec vim "$file" "$@"
+fi
+

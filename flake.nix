@@ -23,9 +23,13 @@
     inputs.snowfall-lib.mkFlake {
       inherit inputs;
       src = ./.;
+      channels-config = {
+        # Allow unfree packages.
+        allowUnfree = true;
 
-      systems.modules.nixos = [
-        inputs.nixos-wsl.nixosModules.default
-      ];
+        # Allow certain insecure packages
+        permittedInsecurePackages = [
+        ];
+      };
     };
 }
