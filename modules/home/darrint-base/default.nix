@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  home.stateVersion = "24.11";
   home.packages = [
     pkgs.killall
     pkgs.direnv
@@ -14,6 +15,7 @@
     pkgs.lolcat
     pkgs.figlet
     pkgs.nh
+    pkgs.dig
   ];
 
   # Let Home Manager install and manage itself.

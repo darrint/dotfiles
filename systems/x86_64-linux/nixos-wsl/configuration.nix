@@ -1,21 +1,16 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-
-{ config, lib, pkgs, ... }:
-
-{
+{inputs, ...}: {
   imports = [
-    # include NixOS-WSL modules
-    # <nixos-wsl/modules>
+    inputs.nixos-wsl.nixosModules.default
   ];
 
   wsl.enable = true;
   wsl.defaultUser = "darrint";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];  
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -27,6 +22,6 @@
 
   users.users.darrint = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = ["wheel"];
   };
 }
