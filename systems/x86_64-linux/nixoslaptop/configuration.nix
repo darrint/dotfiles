@@ -12,11 +12,9 @@
   fonts = {
     fontDir.enable = true;
     packages = with pkgs; [
-      nerdfonts
-
-      # nerd-fonts.inconsolata
-      # nerd-fonts.iosevka
-      # nerd-fonts.monoid
+      nerd-fonts.inconsolata
+      nerd-fonts.iosevka
+      nerd-fonts.monoid
       inter
     ];
   };
