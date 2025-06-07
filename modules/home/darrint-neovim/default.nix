@@ -150,7 +150,10 @@ in {
           nvimBufferline.enable = true;
         };
 
-        treesitter.context.enable = true;
+        treesitter = {
+          context.enable = true;
+          indent.enable = false;
+        };
 
         binds = {
           whichKey.enable = true;
