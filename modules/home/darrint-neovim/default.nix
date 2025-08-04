@@ -19,6 +19,18 @@ in {
     programs.nvf = {
       enable = true;
       settings.vim = {
+        keymaps = [
+          {
+            key = "jj";
+            mode = "i";
+            action = "<ESC>";
+          }
+          {
+            key = "H";
+            mode = "n";
+            action = ":nohlsearch<CR>";
+          }
+        ];
         viAlias = false;
         vimAlias = true;
         debugMode = {
@@ -206,7 +218,7 @@ in {
           motion = {
             hop.enable = true;
             leap.enable = true;
-            precognition.enable = true;
+            precognition.enable = false;
           };
           images = {
             image-nvim.enable = false;
