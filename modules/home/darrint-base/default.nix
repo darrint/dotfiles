@@ -42,7 +42,6 @@
     enableZshIntegration = true;
     enableFishIntegration = true;
     settings = {
-      format = "";
     };
   };
 }

@@ -41,8 +41,10 @@ in {
     programs.brave.enable = true;
     programs.kitty = {
       enable = true;
-      # font = pkgs.nerd-fonts.iosevka;
-      font = "iosevka";
+      font = {
+        name = "Iosevka";
+        size = 10;
+      };
       shellIntegration = {
         enableBashIntegration = true;
         enableZshIntegration = true;
