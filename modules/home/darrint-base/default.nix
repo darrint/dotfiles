@@ -16,6 +16,7 @@
     pkgs.figlet
     pkgs.nh
     pkgs.dig
+    pkgs.wget
   ];
 
   # Let Home Manager install and manage itself.
