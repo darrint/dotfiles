@@ -63,12 +63,12 @@ in {
           # Languages that are enabled in the maximal configuration.
           bash.enable = true;
           clang.enable = true;
-          css.enable = true;
+          css.enable = false;
           html.enable = true;
           sql.enable = true;
           java.enable = true;
           kotlin.enable = false;
-          ts.enable = true;
+          ts.enable = false;
           go.enable = true;
           lua.enable = true;
           zig.enable = false;
@@ -81,7 +81,7 @@ in {
 
           # Language modules that are not as common.
           assembly.enable = false;
-          astro.enable = true;
+          astro.enable = false;
           nu.enable = true;
           csharp.enable = false;
           julia.enable = false;

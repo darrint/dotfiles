@@ -36,4 +36,13 @@
     enable = true;
     addKeysToAgent = "yes";
   };
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
+    settings = {
+      format = "";
+    };
+  };
 }

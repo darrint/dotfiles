@@ -34,11 +34,20 @@ in {
       pkgs.libnotify
       pkgs.gnomeExtensions.blur-my-shell
       pkgs.gnomeExtensions.tiling-shell
-      pkgs.kitty
       pkgs.obsidian
     ];
 
     programs.firefox.enable = true;
     programs.brave.enable = true;
+    programs.kitty = {
+      enable = true;
+      # font = pkgs.nerd-fonts.iosevka;
+      font = "iosevka";
+      shellIntegration = {
+        enableBashIntegration = true;
+        enableZshIntegration = true;
+        enableFishIntegration = true;
+      };
+    };
   };
 }
