@@ -43,6 +43,7 @@ in {
         };
 
         lsp = {
+          enable = true;
           formatOnSave = true;
           lspkind.enable = false;
           lightbulb.enable = true;
@@ -63,7 +64,6 @@ in {
         # This section does not include a comprehensive list of available language modules.
         # To list all available language module options, please visit the nvf manual.
         languages = {
-          enableLSP = true;
           enableFormat = true;
           enableTreesitter = true;
           enableExtraDiagnostics = true;
