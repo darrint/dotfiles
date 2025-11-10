@@ -29,9 +29,16 @@
   ];
 
   # Bootloader.
-  # boot.loader.systemd-boot.enable = true;
-  boot.loader.limine.enable = true;
+  boot.loader.limine = {
+    enable = true;
+    enableEditor = true;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.systemd.enable = true;
+  boot.plymouth = {
+    enable = true;
+  };
+  boot.kernelParams = ["quiet"];
 
   # v4l2loopback for OBS, etc.
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
@@ -97,7 +104,6 @@
   # Enable sound with pipewire.
   # deprecated:
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
