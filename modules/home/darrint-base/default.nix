@@ -17,6 +17,7 @@
     pkgs.nh
     pkgs.dig
     pkgs.wget
+    pkgs.lazygit
   ];
 
   # Let Home Manager install and manage itself.
