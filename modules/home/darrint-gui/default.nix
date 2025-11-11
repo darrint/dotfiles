@@ -22,8 +22,6 @@ in {
     home.packages = [
       pkgs.libsForQt5.qt5.qtwayland
       pkgs.kdePackages.qtwayland
-      pkgs._1password-gui
-      pkgs.vscode
       pkgs.zoom-us
       pkgs.slack
       pkgs.gimp
@@ -32,8 +30,10 @@ in {
       pkgs.musescore
       pkgs.wl-clipboard
       pkgs.libnotify
+      pkgs.pinta
       pkgs.gnomeExtensions.blur-my-shell
       pkgs.gnomeExtensions.tiling-shell
+      pkgs.gnome-tweaks
       pkgs.obsidian
     ];
 
@@ -51,5 +51,6 @@ in {
         enableFishIntegration = true;
       };
     };
+    programs.vscode.enable = true;
   };
 }

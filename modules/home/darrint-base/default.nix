@@ -2,22 +2,13 @@
   home.stateVersion = "24.11";
   home.packages = [
     pkgs.killall
-    pkgs.direnv
     pkgs.nixfmt-rfc-style
-    pkgs.frotz
-    pkgs.zk
-    pkgs.nb
-    pkgs.fzf
-    pkgs.ripgrep
-    pkgs.fd
     pkgs.devenv
-    pkgs.htop
     pkgs.lolcat
     pkgs.figlet
-    pkgs.nh
     pkgs.dig
     pkgs.wget
-    pkgs.lazygit
+    pkgs.strace
   ];
 
   # Let Home Manager install and manage itself.
@@ -32,6 +23,7 @@
   };
   programs.direnv.enable = true;
   programs.zellij.enable = true;
+  programs.eza.enable = true;
 
   services.ssh-agent.enable = true;
   programs.ssh = {
@@ -46,4 +38,13 @@
     settings = {
     };
   };
+  programs.zoxide.enable = true;
+  programs.fastfetch.enable = true;
+  programs.lazygit.enable = true;
+  programs.nh.enable = true;
+  programs.htop.enable = true;
+  programs.btop.enable = true;
+  programs.fd.enable = true;
+  programs.ripgrep.enable = true;
+  programs.fzf.enable = true;
 }
