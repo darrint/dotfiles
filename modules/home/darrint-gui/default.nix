@@ -51,6 +51,16 @@ in {
         enableFishIntegration = true;
       };
     };
+    programs.wezterm = {
+      enable = true;
+      # font = {
+      #   name = "Iosevka";
+      #   size = 10;
+      # };
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      # enableFishIntegration = true;
+    };
     programs.vscode.enable = true;
   };
 }
