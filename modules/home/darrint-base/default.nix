@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: let
+  ntpkgs = inputs.numtide-ai-tools.packages.${pkgs.system};
+in {
   home.stateVersion = "24.11";
   home.packages = [
     pkgs.killall
@@ -9,6 +15,7 @@
     pkgs.dig
     pkgs.wget
     pkgs.strace
+    ntpkgs.opencode
   ];
 
   # Let Home Manager install and manage itself.
