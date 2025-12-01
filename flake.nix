@@ -21,6 +21,7 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    numtide-ai-tools.url = "github:numtide/nix-ai-tools";
   };
 
   outputs = inputs:
