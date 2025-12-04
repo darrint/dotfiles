@@ -78,6 +78,14 @@
   };
 
   hardware.keyboard.qmk.enable = true;
+  hardware.graphics.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+    nvidiaSettings = true;
+  };
+
+  services.xserver.videoDrivers = ["nvidia"];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
