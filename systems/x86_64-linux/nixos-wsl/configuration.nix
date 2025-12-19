@@ -11,6 +11,7 @@
   wsl.enable = true;
   wsl.defaultUser = "darrint";
   nix.settings.experimental-features = ["nix-command" "flakes"];
+  virtualisation.docker.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -22,6 +23,6 @@
 
   users.users.darrint = {
     isNormalUser = true;
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "docker"];
   };
 }
