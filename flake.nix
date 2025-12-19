@@ -22,6 +22,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     numtide-ai-tools.url = "github:numtide/nix-ai-tools";
+    beads-ai.url = "github:steveyegge/beads";
   };
 
   outputs = inputs:
