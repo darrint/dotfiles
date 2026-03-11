@@ -10,6 +10,7 @@
 
   wsl.enable = true;
   wsl.defaultUser = "darrint";
+  wsl.wslConf.interop.appendWindowsPath = false;
   nix.settings.experimental-features = ["nix-command" "flakes"];
   virtualisation.docker.enable = true;
 
