@@ -3,79 +3,61 @@
   lib,
   ...
 }: let
-  # Create the FHS environment with all required libraries
+  # Create the FHS environment - based on working installer config
   fhsEnv = pkgs.buildFHSEnv {
     name = "x-plane-11-fhs";
 
     targetPkgs = pkgs:
       with pkgs; [
         # Core C/C++ libraries
-        stdenv.cc.cc # libstdc++.so.6, libgcc_s.so.1
-        glibc # libc.so.6, libm.so.6
+        stdenv.cc.cc
+        glibc
 
         # GTK2 Stack (X-Plane 11 uses GTK2)
         gtk2
-        gdk-pixbuf
+        glib
         pango
         cairo
+        gdk-pixbuf
         atk
-        glib
+
+        # OpenGL/GLU (same as installer that works)
+        libGLU
+        mesa
+        libGL
+        libglvnd
 
         # X11 Window System
         xorg.libX11
         xorg.libXext
+        xorg.libXrender
         xorg.libXrandr
         xorg.libXcursor
+        xorg.libXi
+        xorg.libXxf86vm
         xorg.libXinerama
         xorg.libXcomposite
         xorg.libXdamage
         xorg.libXfixes
         xorg.libxcb
-        xorg.libXi
-        xorg.libXxf86vm
-        xorg.libXrender
-
-        # Graphics Stack (OpenGL support for NVIDIA GPU)
-        mesa # Provides OpenGL implementation
-        libGLU # OpenGL Utility Library
-        libgbm # Generic Buffer Management
-        libdrm # Direct Rendering Manager
-        libglvnd # OpenGL vendor-neutral dispatch (routes to NVIDIA or Mesa)
 
         # System Libraries
         dbus
         expat
         libxkbcommon
+        zlib
+        freetype
+        fontconfig
 
         # Audio
         alsa-lib
         libpulseaudio
+        openal
 
-        # Additional dependencies
-        zlib
+        # Network
         curl
         openssl
-        freetype
-        fontconfig
       ];
-
-    profile = ''
-      export XPLANE_DIR="$HOME/Games/X-Plane 11"
-      
-      # Force NVIDIA GPU usage via PRIME render offload
-      # X-Plane 11 uses OpenGL, which the NVIDIA Quadro M1200 fully supports
-      export __NV_PRIME_RENDER_OFFLOAD=1
-      export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-      export __GLX_VENDOR_LIBRARY_NAME=nvidia
-      export __VK_LAYER_NV_optimus=NVIDIA_only
-      
-      # Ensure NVIDIA driver is used
-      export VK_ICD_FILENAMES=/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json
-      
-      # Performance settings
-      export __GL_SYNC_TO_VBLANK=0
-      export __GL_THREADED_OPTIMIZATIONS=1
-    '';
 
     runScript = "bash";
   };
@@ -87,7 +69,16 @@
       exit 1
     fi
     cd "$HOME/Games/X-Plane 11" || exit 1
+
     exec ${fhsEnv}/bin/x-plane-11-fhs -c './X-Plane-x86_64 "$@"' -- "$@"
+  '';
+
+  # NVIDIA GPU launcher
+  x-plane-nvidia-launcher = pkgs.writeShellScriptBin "x-plane-11-nvidia" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    exec x-plane-11 "$@"
   '';
 
   # Plane Maker aircraft editor launcher
@@ -97,6 +88,7 @@
       exit 1
     fi
     cd "$HOME/Games/X-Plane 11" || exit 1
+
     exec ${fhsEnv}/bin/x-plane-11-fhs -c './Plane-Maker-x86_64 "$@"' -- "$@"
   '';
 
@@ -107,6 +99,7 @@
       exit 1
     fi
     cd "$HOME/Games/X-Plane 11" || exit 1
+
     exec ${fhsEnv}/bin/x-plane-11-fhs -c './Airfoil-Maker-x86_64 "$@"' -- "$@"
   '';
 
@@ -114,8 +107,20 @@
   x-plane-desktop = pkgs.makeDesktopItem {
     name = "x-plane-11";
     desktopName = "X-Plane 11";
-    comment = "Professional Flight Simulator (NVIDIA GPU)";
-    exec = "x-plane-11";
+    comment = "Professional Flight Simulator";
+    exec = "x-plane-11 --disable_networking";
+    icon = "applications-games";
+    terminal = false;
+    type = "Application";
+    categories = ["Game" "Simulation"];
+  };
+
+  # Desktop entry for NVIDIA version
+  x-plane-nvidia-desktop = pkgs.makeDesktopItem {
+    name = "x-plane-11-nvidia";
+    desktopName = "X-Plane 11 (NVIDIA)";
+    comment = "Professional Flight Simulator with NVIDIA GPU";
+    exec = "x-plane-11-nvidia";
     icon = "applications-games";
     terminal = false;
     type = "Application";
@@ -151,24 +156,25 @@ in
     name = "x-plane-11";
     paths = [
       x-plane-launcher
+      x-plane-nvidia-launcher
       plane-maker-launcher
       airfoil-maker-launcher
       x-plane-desktop
+      x-plane-nvidia-desktop
       plane-maker-desktop
       airfoil-maker-desktop
     ];
 
     meta = with lib; {
-      description = "FHS environment launchers for X-Plane 11 flight simulator with NVIDIA GPU support";
+      description = "FHS environment launcher for X-Plane 11 with NVIDIA GPU support";
       longDescription = ''
-        Provides command-line launchers and desktop integration for X-Plane 11
-        running on NixOS with NVIDIA GPU acceleration via OpenGL.
+        Launcher for X-Plane 11 running on NixOS with NVIDIA GPU
+        acceleration via OpenGL.
 
         X-Plane 11 must be installed at $HOME/Games/X-Plane 11
 
         This package is configured to use the NVIDIA Quadro M1200 GPU via
-        PRIME render offload, providing significantly better performance than
-        the integrated Intel GPU.
+        PRIME render offload for significantly better performance.
       '';
       homepage = "https://www.x-plane.com/";
       license = licenses.unfree;

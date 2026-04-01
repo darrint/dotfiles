@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   pkgs,
   lib,
@@ -95,6 +96,13 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -155,6 +163,13 @@
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
+  # bluetooth passthrough
+  services.udev.packages = [
+    (pkgs.writeTextDir "etc/udev/rules.d/70-dolphin-bt.rules" ''
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="8087", ATTRS{idProduct}=="0a2b", TAG+="uaccess"
+    '')
+  ];
+
   nixpkgs.config = {
     allowUnfree = true;
     # allowInsecurePredicate = pkg:
@@ -183,17 +198,31 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
-    cachix
-    dive
-    podman-tui
-    docker-compose
-    podman-compose
+  environment.systemPackages = with pkgs;
+    [
+      cachix
+      dive
+      podman-tui
+      docker-compose
+      podman-compose
 
-    waypipe
-  ];
+      waypipe
+
+      dolphin-emu
+      xenia-canary
+      xemu
+      (retroarch.withCores (cores:
+        with cores; [
+          pcsx2
+          beetle-psx-hw
+
+          snes9x
+          mesen
+        ]))
+    ]
+    ++ [
+      inputs.self.packages.${pkgs.system}.x-plane-11
+    ];
 
   programs._1password.enable = true;
   programs._1password-gui = {

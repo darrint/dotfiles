@@ -27,6 +27,11 @@
         xorg.libX11
         xorg.libXext
         xorg.libXrender
+        xorg.libXrandr
+        xorg.libXcursor
+        xorg.libXi
+        xorg.libXxf86vm
+        xorg.libXinerama
 
         # Additional dependencies
         stdenv.cc.cc
@@ -34,6 +39,7 @@
         zlib
         freetype
         fontconfig
+        dbus
       ];
 
     runScript = "bash";
