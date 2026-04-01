@@ -5,15 +5,16 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1775051220,
-        "narHash": "sha256-nfsYweiuc4imy9nujb7TwDovbZC715d7fduUnFniSCY=",
+        "lastModified": 1774886305,
+        "narHash": "sha256-1AcsSDQXLcPLwIvV3dJ2DXYpeR2PAQCgUodclDMwg/s=",
         "owner": "steveyegge",
         "repo": "beads",
-        "rev": "78cc11677e0049c8c898cffd490e67182d31c2ee",
+        "rev": "884cc1171e3eb3ee44c1762973dfb8da6b56cdcc",
         "type": "github"
       },
       "original": {
         "owner": "steveyegge",
+        "ref": "v0.63.3",
         "repo": "beads",
         "type": "github"
       }

@@ -2,10 +2,11 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   ntpkgs = inputs.numtide-ai-tools.packages.${pkgs.system};
-  bapkgs = inputs.beads-ai.packages.${pkgs.system};
-in {
+in
+{
   home.stateVersion = "24.11";
   home.packages = [
     pkgs.killall
@@ -17,7 +18,7 @@ in {
     pkgs.wget
     pkgs.strace
     ntpkgs.opencode
-    bapkgs.default
+    pkgs.beads-ai
   ];
 
   # Let Home Manager install and manage itself.
