@@ -84,11 +84,6 @@ in
       '')
     ];
 
-    # Allow screen sharing in some apps.
-    xdg.portal = {
-      wlr.enable = lib.mkForce true;
-    };
-
     programs.localsend.enable = true;
 
     environment.systemPackages = with pkgs; [

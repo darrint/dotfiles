@@ -22,6 +22,7 @@
   networking.wireguard.enable = true;
 
   darrint.desktop.enable = true;
+  darrint.niri.enable = true;
   darrint.pipewire.enable = true;
   darrint.pipewire.jack = true;
   darrint.podman.enable = true;
