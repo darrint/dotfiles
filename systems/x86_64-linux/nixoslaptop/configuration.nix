@@ -55,11 +55,6 @@
       inputs.self.packages.${pkgs.system}.x-plane-11
     ];
 
-  programs.nh = {
-    enable = true;
-    clean.enable = false;
-  };
-
   networking.firewall.allowedTCPPorts = [
     8000
     4000
