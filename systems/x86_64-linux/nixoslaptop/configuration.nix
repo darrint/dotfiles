@@ -10,11 +10,6 @@
     ./hardware-configuration.nix
   ];
 
-  nix.settings.trusted-users = [
-    "root"
-    "darrint"
-  ];
-
   # Bootloader.
   boot.loader.limine = {
     enable = true;
