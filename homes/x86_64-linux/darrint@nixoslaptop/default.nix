@@ -1,4 +1,21 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
+let
+  niriSplash = pkgs.writeShellScript "niri-splash" ''
+    # Show a solid background immediately while noctalia-shell loads.
+    ${pkgs.swaybg}/bin/swaybg -c '#0e0e43' &
+    SWAYBG_PID=$!
+
+    # Poll until noctalia IPC responds (max ~30 s, 300 ms intervals)
+    for i in $(seq 1 100); do
+      if noctalia-shell ipc call state all >/dev/null 2>&1; then
+        break
+      fi
+      sleep 0.3
+    done
+
+    kill "$SWAYBG_PID" 2>/dev/null
+  '';
+in
 {
   darrint.neovim.enable = true;
   darrint.gui.enable = true;
@@ -34,6 +51,7 @@
       background-color "transparent"
     }
 
+    spawn-at-startup "${niriSplash}"
     spawn-at-startup "noctalia-shell"
 
     input {
