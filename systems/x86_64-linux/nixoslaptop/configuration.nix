@@ -39,12 +39,6 @@
   environment.systemPackages =
     with pkgs;
     [
-      cachix
-      dive
-      podman-tui
-      docker-compose
-      podman-compose
-
       dolphin-emu
       xenia-canary
       xemu
