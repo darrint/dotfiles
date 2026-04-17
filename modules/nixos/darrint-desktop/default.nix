@@ -47,6 +47,8 @@ in
       nvidiaSettings = true;
     };
 
+    networking.networkmanager.enable = true;
+
     services.xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
@@ -86,5 +88,11 @@ in
     xdg.portal = {
       wlr.enable = lib.mkForce true;
     };
+
+    programs.localsend.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      waypipe
+    ];
   };
 }

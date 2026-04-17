@@ -19,7 +19,6 @@
   boot.initrd.systemd.enable = true;
 
   networking.hostName = "nixoslaptop";
-  networking.networkmanager.enable = true;
   networking.wireguard.enable = true;
 
   darrint.desktop.enable = true;
@@ -46,8 +45,6 @@
       docker-compose
       podman-compose
 
-      waypipe
-
       dolphin-emu
       xenia-canary
       xemu
@@ -68,7 +65,6 @@
     enable = true;
     clean.enable = false;
   };
-  programs.localsend.enable = true;
 
   networking.firewall.allowedTCPPorts = [
     8000
