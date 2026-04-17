@@ -23,6 +23,12 @@
     };
     numtide-ai-tools.url = "github:numtide/nix-ai-tools";
     beads-ai.url = "github:steveyegge/beads/v0.63.3";
+    frc-nix = {
+      url = "github:frc4451/frc-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # noctalia-shell requires nixos-unstable; intentionally not following nixpkgs
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
   };
 
   outputs =
