@@ -25,7 +25,8 @@
     beads-ai.url = "github:steveyegge/beads/v0.63.3";
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     inputs.snowfall-lib.mkFlake {
       inherit inputs;
       src = ./.;

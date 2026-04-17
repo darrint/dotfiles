@@ -3,7 +3,8 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-{inputs, ...}: {
+{ inputs, ... }:
+{
   imports = [
     inputs.nixos-wsl.nixosModules.default
   ];
@@ -11,7 +12,10 @@
   wsl.enable = true;
   wsl.defaultUser = "darrint";
   wsl.wslConf.interop.appendWindowsPath = false;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   virtualisation.docker.enable = true;
 
   # This value determines the NixOS release from which the default
@@ -24,6 +28,9 @@
 
   users.users.darrint = {
     isNormalUser = true;
-    extraGroups = ["wheel" "docker"];
+    extraGroups = [
+      "wheel"
+      "docker"
+    ];
   };
 }

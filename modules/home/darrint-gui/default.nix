@@ -3,9 +3,11 @@
   lib,
   config,
   ...
-}: let
+}:
+let
   cfg = config.darrint.gui;
-in {
+in
+{
   options.darrint.gui = {
     enable = lib.mkEnableOption "Enable darrint GUI stuff";
   };
@@ -14,7 +16,7 @@ in {
     fonts = {
       fontconfig = {
         defaultFonts = {
-          monospace = ["Iosevka NFM Light"];
+          monospace = [ "Iosevka NFM Light" ];
         };
       };
     };

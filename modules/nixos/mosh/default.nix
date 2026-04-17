@@ -1,3 +1,4 @@
-{inputs, ...}: {
+{ inputs, ... }:
+{
   programs.mosh.enable = true;
 }

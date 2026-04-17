@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.jellyfin = {
     enable = true;
     openFirewall = true;
@@ -10,4 +11,3 @@
     pkgs.jellyfin-ffmpeg
   ];
 }
-

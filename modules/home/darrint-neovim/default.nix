@@ -3,9 +3,11 @@
   lib,
   config,
   ...
-}: let
+}:
+let
   cfg = config.darrint.neovim;
-in {
+in
+{
   imports = [
     inputs.nvf.homeManagerModules.default
   ];
@@ -262,7 +264,10 @@ in {
               nix = "110";
               ruby = "120";
               java = "130";
-              go = ["90" "130"];
+              go = [
+                "90"
+                "130"
+              ];
             };
           };
           fastaction.enable = true;

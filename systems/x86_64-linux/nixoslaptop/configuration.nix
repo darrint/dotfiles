@@ -4,7 +4,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -39,10 +40,10 @@
   boot.plymouth = {
     enable = true;
   };
-  boot.kernelParams = ["quiet"];
+  boot.kernelParams = [ "quiet" ];
 
   # v4l2loopback for OBS, etc.
-  boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
   boot.extraModprobeConfig = ''
     options v4l2loopback devices=1 video_nr=1 card_label="Loopback Cam" exclusive_caps=1
   '';
@@ -58,7 +59,7 @@
   # Enable networking
   networking.networkmanager.enable = true;
   networking.wireguard.enable = true;
-  networking.extraHosts = '''';
+  networking.extraHosts = "";
 
   # Set your time zone.
   time.timeZone = "America/Indiana/Indianapolis";
@@ -86,7 +87,7 @@
     nvidiaSettings = true;
   };
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -152,7 +153,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr1N+n9997wxRQ+Ss3oj1Ztg726vSVMelxdoSDkM/kqUL6ylELfyiF6ZYeZbTftd4TzJRW8zloltpVE1GnoaNnm/0clLCtJK6gQRNBKx+JBZaF26WpH0yo+Vt2puvajAchrfpzZl/HqZL5RscY+Gs8hS+u7IfbWQ8o/JhyUsY2rgsPSw58LQS8br22EZAcBCOMLXffer7l5489/g83sTKdgyvW2kWq+E97uMswJ2ytAhNbCdYDIGuceHymIVkNAmJ6FS3ykCiOthYGCNIWReR4VQRMix0wqxxxfXrtSXyYio3lhUTEnA2jWmJiVOfy94vRfkMFopuDOp2nOIxbKJhl"
     ];
-    packages = [];
+    packages = [ ];
   };
 
   # Enable automatic login for the user.
@@ -198,7 +199,8 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs;
+  environment.systemPackages =
+    with pkgs;
     [
       cachix
       dive
@@ -211,14 +213,15 @@
       dolphin-emu
       xenia-canary
       xemu
-      (retroarch.withCores (cores:
-        with cores; [
+      (retroarch.withCores (
+        cores: with cores; [
           pcsx2
           beetle-psx-hw
 
           snes9x
           mesen
-        ]))
+        ]
+      ))
     ]
     ++ [
       inputs.self.packages.${pkgs.system}.x-plane-11
@@ -227,7 +230,7 @@
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
-    polkitPolicyOwners = ["darrint"];
+    polkitPolicyOwners = [ "darrint" ];
   };
 
   programs.steam = {
@@ -279,25 +282,25 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
   /*
-  snowfallorg.users.darrint = {
-    create = true;
-    admin = false;
+    snowfallorg.users.darrint = {
+      create = true;
+      admin = false;
 
-    home = {
-      enable = true;
+      home = {
+        enable = true;
 
-      config = {
-        description = "Darrin Thompson";
-        extraGroups = [
-          "networkmanager"
-          "wheel"
-          "dialout"
-        ];
-        openssh.authorizedKeys.keys = [
-          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr1N+n9997wxRQ+Ss3oj1Ztg726vSVMelxdoSDkM/kqUL6ylELfyiF6ZYeZbTftd4TzJRW8zloltpVE1GnoaNnm/0clLCtJK6gQRNBKx+JBZaF26WpH0yo+Vt2puvajAchrfpzZl/HqZL5RscY+Gs8hS+u7IfbWQ8o/JhyUsY2rgsPSw58LQS8br22EZAcBCOMLXffer7l5489/g83sTKdgyvW2kWq+E97uMswJ2ytAhNbCdYDIGuceHymIVkNAmJ6FS3ykCiOthYGCNIWReR4VQRMix0wqxxxfXrtSXyYio3lhUTEnA2jWmJiVOfy94vRfkMFopuDOp2nOIxbKJhl"
-        ];
+        config = {
+          description = "Darrin Thompson";
+          extraGroups = [
+            "networkmanager"
+            "wheel"
+            "dialout"
+          ];
+          openssh.authorizedKeys.keys = [
+            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr1N+n9997wxRQ+Ss3oj1Ztg726vSVMelxdoSDkM/kqUL6ylELfyiF6ZYeZbTftd4TzJRW8zloltpVE1GnoaNnm/0clLCtJK6gQRNBKx+JBZaF26WpH0yo+Vt2puvajAchrfpzZl/HqZL5RscY+Gs8hS+u7IfbWQ8o/JhyUsY2rgsPSw58LQS8br22EZAcBCOMLXffer7l5489/g83sTKdgyvW2kWq+E97uMswJ2ytAhNbCdYDIGuceHymIVkNAmJ6FS3ykCiOthYGCNIWReR4VQRMix0wqxxxfXrtSXyYio3lhUTEnA2jWmJiVOfy94vRfkMFopuDOp2nOIxbKJhl"
+          ];
+        };
       };
     };
-  };
   */
 }

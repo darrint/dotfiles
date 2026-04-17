@@ -2,13 +2,14 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   # Create the FHS environment - based on working installer config
   fhsEnv = pkgs.buildFHSEnv {
     name = "x-plane-11-fhs";
 
-    targetPkgs = pkgs:
-      with pkgs; [
+    targetPkgs =
+      pkgs: with pkgs; [
         # Core C/C++ libraries
         stdenv.cc.cc
         glibc
@@ -112,7 +113,10 @@
     icon = "applications-games";
     terminal = false;
     type = "Application";
-    categories = ["Game" "Simulation"];
+    categories = [
+      "Game"
+      "Simulation"
+    ];
   };
 
   # Desktop entry for NVIDIA version
@@ -124,7 +128,10 @@
     icon = "applications-games";
     terminal = false;
     type = "Application";
-    categories = ["Game" "Simulation"];
+    categories = [
+      "Game"
+      "Simulation"
+    ];
   };
 
   # Desktop entry for Plane Maker
@@ -136,7 +143,11 @@
     icon = "applications-games";
     terminal = false;
     type = "Application";
-    categories = ["Game" "Simulation" "Utility"];
+    categories = [
+      "Game"
+      "Simulation"
+      "Utility"
+    ];
   };
 
   # Desktop entry for Airfoil Maker
@@ -148,38 +159,42 @@
     icon = "applications-games";
     terminal = false;
     type = "Application";
-    categories = ["Game" "Simulation" "Utility"];
+    categories = [
+      "Game"
+      "Simulation"
+      "Utility"
+    ];
   };
 in
-  # Combine all components into a single package
-  pkgs.symlinkJoin {
-    name = "x-plane-11";
-    paths = [
-      x-plane-launcher
-      x-plane-nvidia-launcher
-      plane-maker-launcher
-      airfoil-maker-launcher
-      x-plane-desktop
-      x-plane-nvidia-desktop
-      plane-maker-desktop
-      airfoil-maker-desktop
-    ];
+# Combine all components into a single package
+pkgs.symlinkJoin {
+  name = "x-plane-11";
+  paths = [
+    x-plane-launcher
+    x-plane-nvidia-launcher
+    plane-maker-launcher
+    airfoil-maker-launcher
+    x-plane-desktop
+    x-plane-nvidia-desktop
+    plane-maker-desktop
+    airfoil-maker-desktop
+  ];
 
-    meta = with lib; {
-      description = "FHS environment launcher for X-Plane 11 with NVIDIA GPU support";
-      longDescription = ''
-        Launcher for X-Plane 11 running on NixOS with NVIDIA GPU
-        acceleration via OpenGL.
+  meta = with lib; {
+    description = "FHS environment launcher for X-Plane 11 with NVIDIA GPU support";
+    longDescription = ''
+      Launcher for X-Plane 11 running on NixOS with NVIDIA GPU
+      acceleration via OpenGL.
 
-        X-Plane 11 must be installed at $HOME/Games/X-Plane 11
+      X-Plane 11 must be installed at $HOME/Games/X-Plane 11
 
-        This package is configured to use the NVIDIA Quadro M1200 GPU via
-        PRIME render offload for significantly better performance.
-      '';
-      homepage = "https://www.x-plane.com/";
-      license = licenses.unfree;
-      platforms = platforms.linux;
-      maintainers = [];
-      mainProgram = "x-plane-11";
-    };
-  }
+      This package is configured to use the NVIDIA Quadro M1200 GPU via
+      PRIME render offload for significantly better performance.
+    '';
+    homepage = "https://www.x-plane.com/";
+    license = licenses.unfree;
+    platforms = platforms.linux;
+    maintainers = [ ];
+    mainProgram = "x-plane-11";
+  };
+}

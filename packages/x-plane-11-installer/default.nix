@@ -2,13 +2,14 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   # FHS environment for X-Plane 11 installer
   fhsEnv = pkgs.buildFHSEnv {
     name = "x-plane-11-installer-fhs";
 
-    targetPkgs = pkgs:
-      with pkgs; [
+    targetPkgs =
+      pkgs: with pkgs; [
         # GTK2 Stack (installer needs GTK2)
         gtk2
         glib
@@ -51,20 +52,20 @@
       echo "Example: x-plane-11-installer ~/Downloads/X-Plane\ 11\ Installer\ Linux"
       exit 1
     fi
-    
+
     INSTALLER_PATH="$1"
     shift
-    
+
     if [ ! -f "$INSTALLER_PATH" ]; then
       echo "Error: Installer not found at: $INSTALLER_PATH"
       exit 1
     fi
-    
+
     # Make sure it's executable
     chmod +x "$INSTALLER_PATH"
-    
+
     # Run in FHS environment
     exec ${fhsEnv}/bin/x-plane-11-installer-fhs -c "'$INSTALLER_PATH' \"\$@\"" -- "$@"
   '';
 in
-  installer-wrapper
+installer-wrapper
