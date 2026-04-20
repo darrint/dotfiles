@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 let
   niriSplash = pkgs.writeShellScript "niri-splash" ''
     # Show a solid background immediately while DMS loads.
@@ -47,8 +52,19 @@ in
     # noctalia kept as an optional fallback; run manually with: noctalia-shell
   ];
 
-  # niri reads config.kdl which includes hm.kdl (hand-written niri config)
-  # plus DMS-generated fragments written to ~/.config/niri/dms/*.kdl at runtime
+  # Use an activation script to pre-create stub DMS config fragments if absent.
+  # Niri parses config.kdl (which includes these) before DMS has run on first boot.
+  # We only create them if missing so DMS can freely overwrite with real content.
+  home.activation.dmsStubbedIncludes = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    dms_dir="$HOME/.config/niri/dms"
+    mkdir -p "$dms_dir"
+    for f in alttab binds colors cursor layout outputs windowrules wpblur; do
+      if [ ! -f "$dms_dir/$f.kdl" ]; then
+        echo "// placeholder — DMS will overwrite this at runtime" > "$dms_dir/$f.kdl"
+      fi
+    done
+  '';
+
   home.file.".config/niri/config.kdl".text = ''
     include "hm.kdl"
     include "dms/alttab.kdl"
