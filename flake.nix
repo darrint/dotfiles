@@ -29,6 +29,8 @@
     };
     # noctalia-shell requires nixos-unstable; intentionally not following nixpkgs
     noctalia.url = "github:noctalia-dev/noctalia-shell";
+    # DMS uses nixos-unstable + pinned quickshell; intentionally not following nixpkgs
+    dms.url = "github:AvengeMedia/DankMaterialShell";
   };
 
   outputs =

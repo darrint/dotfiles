@@ -1,13 +1,16 @@
-{ pkgs, config, ... }:
+{ pkgs, inputs, ... }:
 let
   niriSplash = pkgs.writeShellScript "niri-splash" ''
-    # Show a solid background immediately while noctalia-shell loads.
+    # Show a solid background immediately while DMS loads.
     ${pkgs.swaybg}/bin/swaybg -c '#0e0e43' &
     SWAYBG_PID=$!
 
-    # Poll until noctalia IPC responds (max ~30 s, 300 ms intervals)
+    # Poll until DMS IPC responds (max ~30 s, 300 ms intervals).
+    # We probe with a benign call; dms exits non-zero if not ready.
     for i in $(seq 1 100); do
-      if noctalia-shell ipc call state all >/dev/null 2>&1; then
+      if dms ipc spotlight toggle >/dev/null 2>&1; then
+        # DMS is up — close spotlight again immediately
+        dms ipc spotlight toggle >/dev/null 2>&1 || true
         break
       fi
       sleep 0.3
@@ -17,18 +20,48 @@ let
   '';
 in
 {
+  imports = [
+    inputs.dms.homeModules.dank-material-shell
+  ];
+
   darrint.neovim.enable = true;
   darrint.gui.enable = true;
   darrint.frc.enable = true;
 
+  programs.dank-material-shell = {
+    enable = true;
+    # DMS spawned via spawn-at-startup in hm.kdl; not via systemd
+    systemd.enable = false;
+    # Calendar events not needed
+    enableCalendarEvents = false;
+    # dgop (system monitor) not in nixpkgs stable — disable and stub the package
+    enableSystemMonitoring = false;
+    dgop.package = pkgs.writeShellScriptBin "dgop" "echo 'dgop stub: system monitoring disabled'";
+  };
+
   home.packages = with pkgs; [
-    brightnessctl # required by noctalia for brightness control
-    imagemagick # required by noctalia for wallpaper processing
+    brightnessctl # required by DMS for brightness control
+    imagemagick # wallpaper processing
     cliphist # clipboard history (wl-clipboard is in darrint-gui)
     wlsunset # night light
+    # noctalia kept as an optional fallback; run manually with: noctalia-shell
   ];
 
+  # niri reads config.kdl which includes hm.kdl (hand-written niri config)
+  # plus DMS-generated fragments written to ~/.config/niri/dms/*.kdl at runtime
   home.file.".config/niri/config.kdl".text = ''
+    include "hm.kdl"
+    include "dms/alttab.kdl"
+    include "dms/binds.kdl"
+    include "dms/colors.kdl"
+    include "dms/cursor.kdl"
+    include "dms/layout.kdl"
+    include "dms/outputs.kdl"
+    include "dms/windowrules.kdl"
+    include "dms/wpblur.kdl"
+  '';
+
+  home.file.".config/niri/hm.kdl".text = ''
     hotkey-overlay {
       skip-at-startup
     }
@@ -43,7 +76,7 @@ in
 
     // Stationary wallpaper visible at all times including niri overview
     layer-rule {
-      match namespace="^noctalia-wallpaper*"
+      match namespace="^dms-wallpaper*"
       place-within-backdrop true
     }
 
@@ -52,7 +85,7 @@ in
     }
 
     spawn-at-startup "${niriSplash}"
-    spawn-at-startup "noctalia-shell"
+    spawn-at-startup "dms" "run"
 
     input {
       touchpad {
@@ -65,18 +98,6 @@ in
     }
 
     binds {
-      // Noctalia shell controls
-      Mod+Space { spawn-sh "noctalia-shell ipc call launcher toggle"; }
-      Mod+S     { spawn-sh "noctalia-shell ipc call controlCenter toggle"; }
-      Mod+Comma { spawn-sh "noctalia-shell ipc call settings toggle"; }
-
-      // Audio & brightness via Noctalia IPC
-      XF86AudioRaiseVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
-      XF86AudioLowerVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
-      XF86AudioMute         { spawn "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
-      XF86MonBrightnessUp   { spawn "noctalia-shell" "ipc" "call" "brightness" "increase"; }
-      XF86MonBrightnessDown { spawn "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
-
       // Terminal
       Mod+Return { spawn "kitty"; }
 
@@ -96,7 +117,7 @@ in
       Mod+Ctrl+K     { focus-window-up; }
       Mod+Ctrl+L     { focus-column-right; }
 
-      // Move windows/columns (Mod+Ctrl+Shift)
+      // Move windows/columns (Mod+Shift)
       Mod+Ctrl+Shift+Left  { move-column-left; }
       Mod+Ctrl+Shift+Down  { move-window-down; }
       Mod+Ctrl+Shift+Up    { move-window-up; }
@@ -107,8 +128,8 @@ in
       Mod+Ctrl+Shift+L     { move-column-right; }
 
       // First / last column
-      Mod+Home      { focus-column-first; }
-      Mod+End       { focus-column-last; }
+      Mod+Home       { focus-column-first; }
+      Mod+End        { focus-column-last; }
       Mod+Shift+Home { move-column-to-first; }
       Mod+Shift+End  { move-column-to-last; }
 
@@ -154,7 +175,6 @@ in
       Mod+Ctrl+R    { reset-window-height; }
       Mod+C         { center-column; }
       Mod+Ctrl+C    { center-visible-columns; }
-      Mod+V         { toggle-window-floating; }
       Mod+Ctrl+V    { switch-focus-between-floating-and-tiling; }
       Mod+W         { toggle-column-tabbed-display; }
 
@@ -181,7 +201,7 @@ in
       Mod+Shift+WheelScrollUp   { focus-column-left; }
 
       // Screenshots
-      Print     { screenshot; }
+      Print      { screenshot; }
       Ctrl+Print { screenshot-screen; }
       Alt+Print  { screenshot-window; }
 
