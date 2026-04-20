@@ -15,7 +15,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.kubectl
-      pkgs.helm
+      pkgs.kubernetes-helm
       pkgs.kubectx
       pkgs.argocd
       pkgs.telepresence2
