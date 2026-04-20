@@ -57,5 +57,7 @@ in
   programs.fd.enable = true;
   programs.ripgrep.enable = true;
   programs.fzf.enable = true;
+
   darrint.kubectl.enable = true;
+  darrint.aws.enable = true;
 }
