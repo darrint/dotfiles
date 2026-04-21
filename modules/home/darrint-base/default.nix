@@ -61,4 +61,5 @@ in
 
   darrint.kubectl.enable = true;
   darrint.aws.enable = true;
+  darrint.terraform.enable = true;
 }
