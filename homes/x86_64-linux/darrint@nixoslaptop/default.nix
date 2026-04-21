@@ -23,6 +23,29 @@ let
 
     kill "$SWAYBG_PID" 2>/dev/null
   '';
+
+  wallpaperRefresh = pkgs.writeShellScript "wallpaper-refresh" ''
+    set -euo pipefail
+    DIR="$HOME/Pictures/Wallpapers"
+    mkdir -p "$DIR"
+
+    FILE="$DIR/wallpaper-$(${pkgs.coreutils}/bin/date +%Y%m%d-%H%M%S).jpg"
+
+    # source.unsplash.com redirects to a random landscape image — follow with -L
+    ${pkgs.curl}/bin/curl -sL \
+      "https://source.unsplash.com/1920x1080/?landscape,nature" \
+      -o "$FILE"
+
+    # Apply wallpaper if DMS is running
+    if dms ipc call wallpaper set "$FILE" 2>/dev/null; then
+      echo "Wallpaper set: $FILE"
+    else
+      echo "DMS not running; wallpaper saved for next session: $FILE"
+    fi
+
+    # Keep only the 30 most recent
+    ls -t "$DIR"/*.jpg 2>/dev/null | ${pkgs.coreutils}/bin/tail -n +31 | xargs -r rm --
+  '';
 in
 {
   imports = [
@@ -46,10 +69,8 @@ in
 
   home.packages = with pkgs; [
     brightnessctl # required by DMS for brightness control
-    imagemagick # wallpaper processing
     cliphist # clipboard history (wl-clipboard is in darrint-gui)
     wlsunset # night light
-    # noctalia kept as an optional fallback; run manually with: noctalia-shell
   ];
 
   # Use an activation script to pre-create stub DMS config fragments if absent.
@@ -64,6 +85,33 @@ in
       fi
     done
   '';
+
+  home.activation.wallpaperDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/Pictures/Wallpapers"
+  '';
+
+  # Fetch a new landscape wallpaper every 3 hours and on session start
+  systemd.user.services.wallpaper-refresh = {
+    Unit = {
+      Description = "Download a fresh landscape wallpaper from Unsplash";
+      After = [ "graphical-session.target" ];
+      Requires = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${wallpaperRefresh}";
+    };
+  };
+
+  systemd.user.timers.wallpaper-refresh = {
+    Unit.Description = "Refresh wallpaper every 3 hours";
+    Timer = {
+      OnActiveSec = "1min"; # small delay after login so DMS is ready
+      OnUnitActiveSec = "3h";
+      Persistent = true;
+    };
+    Install.WantedBy = [ "timers.target" ];
+  };
 
   home.file.".config/niri/config.kdl".text = ''
     include "hm.kdl"

@@ -34,8 +34,6 @@ in
 
     environment.systemPackages = [
       pkgs.xwayland-satellite
-      # noctalia kept as an optional fallback; run manually with: noctalia-shell
-      inputs.noctalia.packages.${pkgs.system}.default
     ];
   };
 }
