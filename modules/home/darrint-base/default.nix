@@ -26,11 +26,6 @@ in
   programs.zsh.enable = true;
   programs.fish.enable = true;
   programs.nushell.enable = true;
-  programs.git = {
-    enable = true;
-    userName = "darrint";
-    userEmail = "darrint@fastmail.com";
-  };
   programs.direnv.enable = true;
   programs.eza.enable = true;
 
@@ -49,8 +44,6 @@ in
   };
   programs.zoxide.enable = true;
   programs.fastfetch.enable = true;
-  programs.lazygit.enable = true;
-
   programs.nh.enable = true;
   programs.htop.enable = true;
   programs.btop.enable = true;
@@ -58,6 +51,7 @@ in
   programs.ripgrep.enable = true;
   programs.fzf.enable = true;
 
+  darrint.git.enable = true;
   darrint.kubectl.enable = true;
   darrint.aws.enable = true;
   darrint.terraform.enable = true;
