@@ -31,10 +31,12 @@ let
 
     FILE="$DIR/wallpaper-$(${pkgs.coreutils}/bin/date +%Y%m%d-%H%M%S).jpg"
 
-    # source.unsplash.com redirects to a random landscape image — follow with -L
-    ${pkgs.curl}/bin/curl -sL \
-      "https://source.unsplash.com/1920x1080/?landscape,nature" \
-      -o "$FILE"
+    # Fetch today's Bing photo of the day (always a high-quality landscape/nature image)
+    BING_API="https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"
+    IMG_PATH=$(${pkgs.curl}/bin/curl -sL "$BING_API" \
+      | ${pkgs.gnugrep}/bin/grep -o '"url":"[^"]*"' \
+      | ${pkgs.gnused}/bin/sed 's/"url":"//;s/"//')
+    ${pkgs.curl}/bin/curl -sL "https://www.bing.com$IMG_PATH" -o "$FILE"
 
     # Apply wallpaper if DMS is running
     if dms ipc wallpaper set "$FILE" 2>/dev/null; then
