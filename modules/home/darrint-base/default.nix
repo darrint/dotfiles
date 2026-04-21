@@ -32,8 +32,6 @@ in
     userEmail = "darrint@fastmail.com";
   };
   programs.direnv.enable = true;
-  programs.zellij.enable = true;
-  home.file.".config/zellij/config.kdl".source = ./zellij.kdl;
   programs.eza.enable = true;
 
   services.ssh-agent.enable = true;
@@ -52,6 +50,7 @@ in
   programs.zoxide.enable = true;
   programs.fastfetch.enable = true;
   programs.lazygit.enable = true;
+
   programs.nh.enable = true;
   programs.htop.enable = true;
   programs.btop.enable = true;
@@ -62,4 +61,5 @@ in
   darrint.kubectl.enable = true;
   darrint.aws.enable = true;
   darrint.terraform.enable = true;
+  darrint.zellij.enable = true;
 }
