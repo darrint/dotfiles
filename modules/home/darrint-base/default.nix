@@ -32,12 +32,8 @@ in
     userEmail = "darrint@fastmail.com";
   };
   programs.direnv.enable = true;
-  programs.zellij = {
-    enable = true;
-    settings = {
-      theme_transparency = true;
-    };
-  };
+  programs.zellij.enable = true;
+  home.file.".config/zellij/config.kdl".source = ./zellij.kdl;
   programs.eza.enable = true;
 
   services.ssh-agent.enable = true;
