@@ -37,7 +37,7 @@ let
       -o "$FILE"
 
     # Apply wallpaper if DMS is running
-    if dms ipc call wallpaper set "$FILE" 2>/dev/null; then
+    if dms ipc wallpaper set "$FILE" 2>/dev/null; then
       echo "Wallpaper set: $FILE"
     else
       echo "DMS not running; wallpaper saved for next session: $FILE"
