@@ -174,9 +174,21 @@ in
       Mod+Q repeat=false { close-window; }
 
       // Focus navigation
+      Mod+Left       { focus-column-left; }
+      Mod+Down       { focus-window-down; }
+      Mod+Up         { focus-window-up; }
+      Mod+Right      { focus-column-right; }
+
+      // Consume/expel and move within column
+      Mod+Shift+Left  { consume-or-expel-window-left; }
+      Mod+Shift+Right { consume-or-expel-window-right; }
+      Mod+Shift+Up    { move-window-up; }
+      Mod+Shift+Down  { move-window-down; }
+
+      // Focus navigation (Ctrl variants — legacy)
       Mod+Ctrl+Left  { focus-column-left; }
-      Mod+Ctrl+Down  { focus-window-down; }
-      Mod+Ctrl+Up    { focus-window-up; }
+      Mod+Ctrl+Down  { focus-workspace-down; }
+      Mod+Ctrl+Up    { focus-workspace-up; }
       Mod+Ctrl+Right { focus-column-right; }
       Mod+Ctrl+H     { focus-column-left; }
       Mod+Ctrl+J     { focus-window-down; }
