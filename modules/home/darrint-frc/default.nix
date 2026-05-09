@@ -3,11 +3,9 @@
   lib,
   config,
   ...
-}:
-let
+}: let
   cfg = config.darrint.frc;
-in
-{
+in {
   options.darrint.frc = {
     enable = lib.mkEnableOption "FRC robotics tools";
   };
@@ -29,6 +27,7 @@ in
       wpilib.roborioteamnumbersetter
       wpilib.wpical
       wpilib.wpilib-utility
+      wpilib.vscode-wpilib
     ];
 
     programs.vscode.extensions = [
