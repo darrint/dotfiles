@@ -12,6 +12,7 @@
   wsl.enable = true;
   wsl.defaultUser = "darrint";
   wsl.wslConf.interop.appendWindowsPath = false;
+  wsl.useWindowsDriver = true;
   virtualisation.docker.enable = true;
 
   # This value determines the NixOS release from which the default
