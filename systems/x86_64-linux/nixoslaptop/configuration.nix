@@ -38,6 +38,7 @@
   # x-plane-11 is a local flake package, so it stays here
   environment.systemPackages = [
     inputs.self.packages.${pkgs.system}.x-plane-11
+    pkgs.libreoffice
   ];
 
   networking.firewall.allowedTCPPorts = [
