@@ -1,0 +1,9 @@
+keys:
+  - &netbird-key age1nlqe77l5wueewdvdxfuhxr3y4edzn9qc4ldkq95l80fgny8utdssm2eumx
+
+creation_rules:
+  - path_regex: ^secrets/.*\.(yaml|yml|json|env|txt)$
+    key_groups:
+      - age:
+        - *netbird-key
+

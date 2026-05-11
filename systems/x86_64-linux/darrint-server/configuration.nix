@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     ./hardware-configuration.nix
     ./vaultwarden.nix
@@ -22,7 +21,10 @@
   networking.hostName = "darrint-server";
   networking.wireless.enable = true;
 
-  darrint.user.extraGroups = [ "networkmanager" ];
+  darrint.user.extraGroups = ["networkmanager"];
+  darrint.netbird-server.enable = true;
+  darrint.podman.enable = true;
+  darrint.netbird.useRoutingFeatures = "both";
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
