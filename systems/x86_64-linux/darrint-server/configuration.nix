@@ -12,6 +12,7 @@
     ./vaultwarden.nix
     ./caddy.nix
     ./jellyfin.nix
+    ./terraria.nix
   ];
 
   # Bootloader.
