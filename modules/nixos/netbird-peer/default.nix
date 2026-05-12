@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }: let
@@ -24,6 +25,15 @@ in {
   };
 
   config = {
+    systemd.services.netbird.path = [ "/run/wrappers" ];
+
+    security.wrappers.login = {
+      source = "${pkgs.shadow}/bin/login";
+      owner = "root";
+      group = "root";
+      setuid = true;
+    };
+
     services.netbird = {
       enable = true;
       clients.default.config = {
