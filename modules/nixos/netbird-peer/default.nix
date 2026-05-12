@@ -26,6 +26,9 @@ in {
   config = {
     services.netbird = {
       enable = true;
+      clients.default.config = {
+        ServerSSHAllowed = true;
+      };
 
       useRoutingFeatures = cfg;
     };

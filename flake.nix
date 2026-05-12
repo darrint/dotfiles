@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,6 +47,10 @@
         # Allow certain insecure packages
         permittedInsecurePackages = [
         ];
+
+        nixpkgs-unstable = {
+          input = inputs.nixpkgs-unstable;
+        };
       };
       systems.modules.nixos = [
         inputs.sops-nix.nixosModules.sops

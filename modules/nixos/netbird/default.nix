@@ -75,6 +75,8 @@ in {
         (builtins.readFile ./config.yaml.template)
       ];
     };
+    networking.firewall.allowedUDPPorts = [ 3478 ];
+
     services.caddy = {
       enable = true;
       virtualHosts = {
