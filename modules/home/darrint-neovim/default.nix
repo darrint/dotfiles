@@ -3,11 +3,9 @@
   lib,
   config,
   ...
-}:
-let
+}: let
   cfg = config.darrint.neovim;
-in
-{
+in {
   imports = [
     inputs.nvf.homeManagerModules.default
   ];
@@ -236,7 +234,6 @@ in
           obsidian.enable = false; # FIXME: neovim fails to build if obsidian is enabled
           neorg.enable = false;
           orgmode.enable = false;
-          mind-nvim.enable = true;
           todo-comments.enable = true;
         };
 
