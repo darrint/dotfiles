@@ -36,6 +36,8 @@ in {
 
     services.netbird = {
       enable = true;
+      # leave this out while we're pulling from unstable as it won't build
+      ui.enable = false;
       clients.default.config = {
         ServerSSHAllowed = true;
       };
