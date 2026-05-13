@@ -25,15 +25,16 @@ in {
   };
 
   config = {
-    systemd.services.netbird.path = [ "/run/wrappers" ];
+    # systemd.services.netbird.path = ["/run/wrappers"];
+    #
+    # security.wrappers.login = {
+    #   source = "${pkgs.shadow}/bin/login";
+    #   owner = "root";
+    #   group = "root";
+    #   setuid = true;
+    # };
 
-    security.wrappers.login = {
-      source = "${pkgs.shadow}/bin/login";
-      owner = "root";
-      group = "root";
-      setuid = true;
-    };
-
+    systemd.services.${config.services.netbird.clients.default.service.name}.path = [pkgs.shadow];
     services.netbird = {
       enable = true;
       # leave this out while we're pulling from unstable as it won't build
