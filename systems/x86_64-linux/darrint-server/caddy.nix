@@ -9,6 +9,9 @@
       "vw.thompsons.space".extraConfig = ''
         reverse_proxy http://localhost:8222
       '';
+      "au.thompsons.space".extraConfig = ''
+        reverse_proxy http://localhost:9000
+      '';
       "thompsons.space".extraConfig = ''
         respond "go away"
       '';

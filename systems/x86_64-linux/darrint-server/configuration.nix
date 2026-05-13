@@ -25,6 +25,7 @@
   darrint.netbird-server.enable = true;
   darrint.podman.enable = true;
   darrint.netbird.useRoutingFeatures = "both";
+  darrint.authentik.enable = true;
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
