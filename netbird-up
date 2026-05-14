@@ -1,0 +1,10 @@
+#!/bin/sh
+
+netbird up \
+        --management-url https://nb.thompsons.space \
+        --allow-server-ssh \
+        --enable-ssh-local-port-forwarding \
+        --enable-ssh-remote-port-forwarding \
+        --enable-ssh-sftp \
+        --ssh-jwt-cache-ttl 28800 \
+        "$@"
