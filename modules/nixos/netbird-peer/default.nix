@@ -5,6 +5,11 @@
   ...
 }: let
   cfg = config.darrint.netbird.useRoutingFeatures;
+  netbird-up = pkgs.writeShellApplication {
+    name = "netbird-up";
+    runtimeInputs = [pkgs.netbird];
+    text = builtins.readFile ./netbird-up;
+  };
 in {
   options.darrint.netbird.useRoutingFeatures = lib.mkOption {
     type = lib.types.enum [
@@ -25,16 +30,12 @@ in {
   };
 
   config = {
-    # systemd.services.netbird.path = ["/run/wrappers"];
-    #
-    # security.wrappers.login = {
-    #   source = "${pkgs.shadow}/bin/login";
-    #   owner = "root";
-    #   group = "root";
-    #   setuid = true;
-    # };
+    environment.systemPackages = [netbird-up];
 
+    # Work around a current bug.
+    # https://github.com/NixOS/nixpkgs/issues/505846
     systemd.services.${config.services.netbird.clients.default.service.name}.path = [pkgs.shadow];
+
     services.netbird = {
       enable = true;
       # leave this out while we're pulling from unstable as it won't build
