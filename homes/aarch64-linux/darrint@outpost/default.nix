@@ -1,0 +1,4 @@
+{ ... }:
+{
+  darrint.neovim.enable = true;
+}

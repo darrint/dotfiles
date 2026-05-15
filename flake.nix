@@ -35,6 +35,10 @@
     };
     # DMS uses nixos-unstable + pinned quickshell; intentionally not following nixpkgs
     dms.url = "github:AvengeMedia/DankMaterialShell";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -56,6 +60,7 @@
       systems.modules.nixos = [
         inputs.sops-nix.nixosModules.sops
         inputs.authentik-nix.nixosModules.default
+        inputs.disko.nixosModules.disko
       ];
       homes.modules = [
         inputs.sops-nix.homeManagerModules.sops
