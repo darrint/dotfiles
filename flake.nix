@@ -57,5 +57,8 @@
         inputs.sops-nix.nixosModules.sops
         inputs.authentik-nix.nixosModules.default
       ];
+      homes.modules = [
+        inputs.sops-nix.homeManagerModules.sops
+      ];
     };
 }

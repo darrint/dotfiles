@@ -8,5 +8,5 @@ netbird up \
         --enable-ssh-local-port-forwarding \
         --enable-ssh-remote-port-forwarding \
         --enable-ssh-sftp \
-        --ssh-jwt-cache-ttl 28800 \
+        --ssh-jwt-cache-ttl 360 \
         "$@"

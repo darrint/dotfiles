@@ -54,6 +54,7 @@ in
   darrint.git.enable = true;
   darrint.kubectl.enable = true;
   darrint.aws.enable = true;
+  darrint.oci.enable = true;
   darrint.terraform.enable = true;
   darrint.zellij.enable = true;
 }
