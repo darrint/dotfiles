@@ -14,8 +14,10 @@ in
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = "darrint";
-      userEmail = "darrint@fastmail.com";
+      settings = {
+        user.name = "darrint";
+        user.email = "darrint@fastmail.com";
+      };
     };
     programs.lazygit.enable = true;
     programs.gh = {
