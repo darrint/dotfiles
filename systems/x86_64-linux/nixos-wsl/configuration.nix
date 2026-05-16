@@ -24,4 +24,7 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
   darrint.user.extraGroups = [ "docker" ];
+
+  darrint.netbird.useRoutingFeatures = "none";
+  darrint.netbird.useUserSpaceWireguard = true;
 }
