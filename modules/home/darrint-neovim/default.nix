@@ -57,6 +57,7 @@ in {
           lspSignature.enable = true;
           otter-nvim.enable = true;
           nvim-docs-view.enable = true;
+          presets.tailwindcss-language-server.enable = lib.mkForce true;
         };
 
         debugger = {
@@ -85,7 +86,7 @@ in {
           sql.enable = true;
           java.enable = true;
           kotlin.enable = false;
-          ts.enable = false;
+          typescript.enable = false;
           go.enable = true;
           lua.enable = true;
           zig.enable = false;
@@ -93,7 +94,7 @@ in {
           typst.enable = false;
           rust = {
             enable = true;
-            crates.enable = true;
+            extensions.crates-nvim.enable = true;
           };
 
           # Language modules that are not as common.
@@ -113,8 +114,7 @@ in {
           ruby.enable = false;
           fsharp.enable = false;
 
-          tailwind.enable = true;
-          svelte.enable = false;
+svelte.enable = false;
 
           # Nim LSP is broken on Darwin and therefore
           # should be disabled by default. Users may still enable
