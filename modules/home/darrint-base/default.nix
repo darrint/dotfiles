@@ -19,6 +19,8 @@ in
     pkgs.strace
     ntpkgs.opencode
     pkgs.beads-ai
+    pkgs.python3
+    pkgs.jq
   ];
 
   # Let Home Manager install and manage itself.
