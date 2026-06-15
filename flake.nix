@@ -2,13 +2,13 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager.url = "github:nix-community/home-manager?ref=release-25.11";
+    home-manager.url = "github:nix-community/home-manager?ref=release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
@@ -30,7 +30,7 @@
     numtide-ai-tools.url = "github:numtide/nix-ai-tools";
     frc-nix = {
       url = "github:frc4451/frc-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable"; # key change
     };
     # DMS uses nixos-unstable + pinned quickshell; intentionally not following nixpkgs
     dms.url = "github:AvengeMedia/DankMaterialShell";
