@@ -28,7 +28,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     numtide-ai-tools.url = "github:numtide/nix-ai-tools";
-    beads-ai.url = "github:steveyegge/beads/v0.63.3";
     frc-nix = {
       url = "github:frc4451/frc-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,10 +47,6 @@
       channels-config = {
         # Allow unfree packages.
         allowUnfree = true;
-
-        # Allow certain insecure packages
-        permittedInsecurePackages = [
-        ];
 
         nixpkgs-unstable = {
           input = inputs.nixpkgs-unstable;

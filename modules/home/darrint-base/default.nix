@@ -18,7 +18,6 @@ in
     pkgs.wget
     pkgs.strace
     ntpkgs.opencode
-    pkgs.beads-ai
     pkgs.python3
     pkgs.jq
   ];
