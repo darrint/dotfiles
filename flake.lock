@@ -201,15 +201,14 @@
     "dms": {
       "inputs": {
         "flake-compat": "flake-compat_3",
-        "nixpkgs": "nixpkgs_3",
-        "quickshell": "quickshell"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1778609419,
-        "narHash": "sha256-aLIFZI7OvIWtp4uJ7PO/ezwKh/XCHuS4X4A8UJI8Stc=",
+        "lastModified": 1781615978,
+        "narHash": "sha256-7zFr2g3KDhfsdiEjp4bjHiDEHEU5BI3QwxzMq0HdsS4=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "392eaea5fcd12a6b5c8094aaab35584be54daf1a",
+        "rev": "cb291255808c8c965f36cad3815dc16b16f215df",
         "type": "github"
       },
       "original": {
@@ -742,11 +741,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1776169885,
-        "narHash": "sha256-l/iNYDZ4bGOAFQY2q8y5OAfBBtrDAaPuRQqWaFHVRXM=",
+        "lastModified": 1778443072,
+        "narHash": "sha256-zi7/fsqM/kFdNuED//4WOCUtezGtKKqRNORjMvfwjnA=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "4bd9165a9165d7b5e33ae57f3eecbcb28fb231c9",
+        "rev": "da5ad661ba4e5ef59ba743f0d112cbc30e474f32",
         "type": "github"
       },
       "original": {
@@ -884,28 +883,6 @@
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
         "type": "github"
-      }
-    },
-    "quickshell": {
-      "inputs": {
-        "nixpkgs": [
-          "dms",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1776854048,
-        "narHash": "sha256-lLbV66V3RMNp1l8/UelmR4YzoJ5ONtgvEtiUMJATH/o=",
-        "ref": "refs/heads/master",
-        "rev": "783c953987dc56ff0601abe6845ed96f1d00495a",
-        "revCount": 806,
-        "type": "git",
-        "url": "https://git.outfoxxed.me/quickshell/quickshell"
-      },
-      "original": {
-        "rev": "783c953987dc56ff0601abe6845ed96f1d00495a",
-        "type": "git",
-        "url": "https://git.outfoxxed.me/quickshell/quickshell"
       }
     },
     "root": {
