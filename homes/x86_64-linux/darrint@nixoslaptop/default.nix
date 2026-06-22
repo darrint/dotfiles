@@ -163,6 +163,16 @@ in
       }
     }
 
+    gestures {
+      // Enhance Mod+MouseLeft drag for moving windows between monitors.
+      // Larger edge trigger + faster scroll when dragging near monitor borders.
+      dnd-edge-view-scroll {
+        trigger-width 100
+        delay-ms 50
+        max-speed 3000
+      }
+    }
+
     binds {
       // Terminal
       Mod+Return { spawn "kitty"; }
@@ -277,6 +287,12 @@ in
       Mod+Ctrl+WheelScrollLeft  { move-column-left; }
       Mod+Shift+WheelScrollDown { focus-column-right; }
       Mod+Shift+WheelScrollUp   { focus-column-left; }
+
+      // Mod+MouseLeft drag (built-in niri gesture; we do not bind Mod+MouseLeft to keep it enabled):
+      //   Hold Mod + left-click-drag a window/column to move it.
+      //   Drag near a monitor edge to cross to another monitor (edge-scroll via the gestures section above).
+      //   Release to place it on the target monitor.
+      //   Tip: Mod+V to toggle floating first if you want free placement; right-click during some drags can toggle float.
 
       // Screenshots
       Print      { screenshot; }
