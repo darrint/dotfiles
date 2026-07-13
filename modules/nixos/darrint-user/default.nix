@@ -9,6 +9,11 @@ in
       default = [ ];
       description = "Extra groups for the darrint user beyond the default wheel group.";
     };
+    uid = lib.mkOption {
+      type = lib.types.nullOr lib.types.int;
+      default = null;
+      description = "Fixed UID for darrint. Null lets NixOS allocate (default 1000). Set when the account already exists with a different UID (e.g. WSL).";
+    };
     authorizedKeys = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
@@ -21,6 +26,7 @@ in
   config = {
     users.users.darrint = {
       isNormalUser = true;
+      uid = lib.mkIf (cfg.uid != null) cfg.uid;
       extraGroups = [ "wheel" ] ++ cfg.extraGroups;
       openssh.authorizedKeys.keys = cfg.authorizedKeys;
     };

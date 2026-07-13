@@ -24,6 +24,8 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
   darrint.user.extraGroups = [ "docker" ];
+  # Existing WSL account is uid 1001; HM activation fails if config expects 1000
+  darrint.user.uid = 1001;
 
   darrint.netbird.useRoutingFeatures = "none";
   darrint.netbird.useUserSpaceWireguard = true;
