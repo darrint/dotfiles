@@ -1,59 +1,40 @@
-# NixOS Config Modularization TODOs
+# Deprecation Warnings TODO
 
-Goal: minimal configuration in `systems/` and `homes/`, maximum in `modules/`.
+Collected from `nix eval .#nixosConfigurations.<host>.config.system.build.toplevel` across all hosts.
 
-## High Value / Low Effort
+---
 
-- [ ] `modules/nixos/nix-flakes` — `nix.settings.experimental-features = ["nix-command" "flakes"]`
-  - Duplicated identically across all 3 systems (darrint-server, nixos-wsl, nixoslaptop)
+## All Hosts (darrint-server, nixoslaptop, nixos-wsl)
 
-- [ ] `modules/nixos/locale` — timezone + i18n block
-  - `time.timeZone = "America/Indiana/Indianapolis"` + full `i18n` block
-  - Duplicated in darrint-server and nixoslaptop
+### `flake.nix`
+- [ ] `'system'` has been renamed to `stdenv.hostPlatform.system`
 
-- [ ] `modules/nixos/allowUnfree` — `nixpkgs.config.allowUnfree = true`
-  - Duplicated in darrint-server and nixoslaptop
+### `modules/home/darrint-neovim/default.nix`
+- [x] `vim.languages.ts` → rename to `vim.languages.typescript`
+- [x] `vim.languages.tailwind.enable` → rename to `vim.lsp.presets.tailwindcss-language-server.enable`
+- [x] `vim.languages.rust.crates.enable` → rename to `vim.languages.rust.extensions.crates-nvim.enable`
 
-- [ ] `modules/nixos/openssh` — `services.openssh.enable = true`
-  - Duplicated in darrint-server and nixoslaptop (WSL intentionally excluded)
+### `modules/home/darrint-base/default.nix`
+- [x] `programs.ssh.addKeysToAgent` → rename to `programs.ssh.matchBlocks.*.addKeysToAgent`
+- [x] `programs.ssh` default values will be removed in the future — review and set explicitly
 
-## Medium Value
+### `modules/home/darrint-git/default.nix`
+- [x] `programs.git.userEmail` → rename to `programs.git.settings.user.email`
+- [x] `programs.git.userName` → rename to `programs.git.settings.user.name`
 
-- [ ] `modules/nixos/darrint-user` — `users.users.darrint` definition
-  - Common core: `isNormalUser = true`, `wheel` group
-  - Options for: extra groups, SSH authorized key
-  - Remove stale `packages = [zellij neovim]` from darrint-server (home-manager handles these)
+### Nix internals (likely upstream, low priority)
+- [ ] `builtins.derivation` used to create `options.json` references a store path without proper context — may break in future Nix versions (likely from nvf/neovim module, not our code)
 
-- [ ] `modules/nixos/pipewire` — `security.rtkit + services.pipewire`
-  - Core block identical on server + laptop
-  - Server pipewire config is a copy-paste leftover (no audio hardware) — just remove it
+---
 
-## Larger Refactors
+## nixoslaptop only
 
-- [ ] `modules/nixos/darrint-desktop` — laptop GUI services
-  - GNOME, GDM, auto-login, Plymouth
-  - Nvidia (modesetting, closed drivers, nvidiaSettings)
-  - printing + avahi
-  - flatpak, fwupd
-  - xdg.portal.wlr
-  - services.sunshine
-  - fonts (nerd-fonts: inconsolata, iosevka, monoid; inter)
-  - security.polkit
-  - boot extras (v4l2loopback, Plymouth, quiet kernel param, limine, systemd initrd)
+### `modules/home/darrint-frc/default.nix`
+- [ ] `programs.vscode.extensions` → rename to `programs.vscode.profiles.default.extensions`
 
-- [ ] `modules/nixos/podman` — virtualisation.containers + podman with dockerCompat
-  - Currently laptop-only; reusable
+### `modules/nixos/darrint-desktop/default.nix`
+- [ ] `services.xserver.desktopManager.gnome.enable` → rename to `services.desktopManager.gnome.enable`
+- [ ] `services.xserver.displayManager.gdm.enable` → rename to `services.displayManager.gdm.enable`
 
-- [ ] `modules/nixos/steam` — `programs.steam` block
-  - Currently laptop-only
-
-- [ ] `modules/nixos/1password` — `programs._1password + programs._1password-gui`
-  - Currently laptop-only
-
-## What Stays in systems/
-- `hardware-configuration.nix` (auto-generated, machine-specific)
-- `system.stateVersion`
-- Hostname (`networking.hostName`)
-- Bootloader type and machine-specific boot config
-- Machine-specific firewall ports
-- `caddy.nix`, `vaultwarden.nix`, `jellyfin.nix` (server-specific services, already split out)
+### `modules/nixos/pipewire/default.nix`
+- [ ] `hardware.pulseaudio` → rename to `services.pulseaudio`
