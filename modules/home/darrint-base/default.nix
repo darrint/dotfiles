@@ -32,7 +32,15 @@ in {
   services.ssh-agent.enable = true;
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      addKeysToAgent = "yes";
+      serverAliveInterval = 60;
+      serverAliveCountMax = 3;
+      controlMaster = "auto";
+      controlPath = "~/.ssh/master-%r@%n:%p";
+      controlPersist = "10m";
+    };
   };
   programs.starship = {
     enable = true;
