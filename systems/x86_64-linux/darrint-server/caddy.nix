@@ -12,6 +12,9 @@
       "au.thompsons.space".extraConfig = ''
         reverse_proxy http://localhost:9000
       '';
+      "id.thompsons.space".extraConfig = ''
+        reverse_proxy http://127.0.0.1:1411
+      '';
       "frc.thompsons.space".extraConfig = ''
         reverse_proxy http://127.0.0.1:5173
       '';
