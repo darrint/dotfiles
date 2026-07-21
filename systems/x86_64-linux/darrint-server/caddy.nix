@@ -12,6 +12,9 @@
       "au.thompsons.space".extraConfig = ''
         reverse_proxy http://localhost:9000
       '';
+      "frc.thompsons.space".extraConfig = ''
+        reverse_proxy http://127.0.0.1:5173
+      '';
       "thompsons.space".extraConfig = ''
         respond "go away"
       '';
