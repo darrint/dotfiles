@@ -16,6 +16,7 @@ in {
     pkgs.wget
     pkgs.strace
     ntpkgs.opencode
+    inputs.self.packages.${pkgs.system}.browsermcp
     pkgs.python3
     pkgs.jq
     pkgs.curl
