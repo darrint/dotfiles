@@ -17,6 +17,7 @@ in {
     pkgs.strace
     ntpkgs.opencode
     pkgs.playwright-mcp
+    pkgs.mcp-nixos
     pkgs.python3
     pkgs.jq
     pkgs.curl
