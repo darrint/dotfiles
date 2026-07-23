@@ -15,6 +15,7 @@
     pkgs.python3
     pkgs.jq
     pkgs.curl
+    pkgs.cachix
   ];
 
   # Let Home Manager install and manage itself.
