@@ -1,10 +1,7 @@
 {
   pkgs,
-  inputs,
   ...
-}: let
-  ntpkgs = inputs.numtide-ai-tools.packages.${pkgs.system};
-in {
+}: {
   home.stateVersion = "24.11";
   home.packages = [
     pkgs.killall
@@ -15,9 +12,6 @@ in {
     pkgs.dig
     pkgs.wget
     pkgs.strace
-    ntpkgs.opencode
-    pkgs.playwright-mcp
-    pkgs.mcp-nixos
     pkgs.python3
     pkgs.jq
     pkgs.curl
@@ -67,4 +61,5 @@ in {
   darrint.oci.enable = true;
   darrint.terraform.enable = true;
   darrint.zellij.enable = true;
+  darrint.ai.enable = true;
 }
