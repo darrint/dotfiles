@@ -194,7 +194,8 @@ svelte.enable = false;
 
         minimap = {
           minimap-vim.enable = false;
-          codewindow.enable = true; # lighter, faster, and uses lua for configuration
+          # broken: requires removed nvim-treesitter.ts_utils (nvf#1426)
+          codewindow.enable = false;
         };
 
         dashboard = {
