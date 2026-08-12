@@ -29,6 +29,13 @@ in {
       settings = cfg.settings;
     };
 
+    # Ensure sync target exists on the Linux filesystem (not a Windows mount).
+    home.activation.onedriveSyncDir = lib.home-manager.hm.dag.entryAfter ["writeBoundary"] ''
+      sync_dir=${lib.escapeShellArg (cfg.settings.sync_dir or "~/OneDrive")}
+      sync_dir="''${sync_dir/#\~/$HOME}"
+      mkdir -p "$sync_dir"
+    '';
+
     systemd.user.services.onedrive = {
       Unit = {
         Description = "OneDrive sync client";
