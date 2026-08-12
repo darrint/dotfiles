@@ -154,7 +154,32 @@ svelte.enable = false;
 
         autopairs.nvim-autopairs.enable = true;
 
-        autocomplete.nvim-cmp.enable = true;
+        autocomplete.nvim-cmp = {
+          enable = true;
+          setupOpts.enabled = lib.generators.mkLuaInline ''
+            function()
+              -- keep cmdline completion
+              if vim.api.nvim_get_mode().mode == "c" then
+                return true
+              end
+              -- no completion in markdown
+              local ft = vim.bo.filetype
+              if ft == "markdown" or ft == "markdown.mdx" then
+                return false
+              end
+              -- no completion inside comments
+              local context = require("cmp.config.context")
+              if context.in_treesitter_capture("comment")
+                or context.in_syntax_group("Comment")
+              then
+                return false
+              end
+              return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+                and vim.fn.reg_recording() == ""
+                and vim.fn.reg_executing() == ""
+            end
+          '';
+        };
         snippets.luasnip.enable = true;
 
         filetree = {
