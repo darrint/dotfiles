@@ -48,6 +48,7 @@
     };
   };
   programs.zoxide.enable = true;
+  programs.mcfly.enable = true;
   programs.fastfetch.enable = true;
   programs.nh.enable = true;
   programs.htop.enable = true;
