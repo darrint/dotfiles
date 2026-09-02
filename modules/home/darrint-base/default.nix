@@ -16,6 +16,7 @@
     pkgs.jq
     pkgs.curl
     pkgs.cachix
+    pkgs.uv
   ];
 
   # Let Home Manager install and manage itself.
