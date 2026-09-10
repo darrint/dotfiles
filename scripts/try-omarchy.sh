@@ -1,8 +1,10 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p qemu_kvm curl coreutils gnugrep gawk
+#! nix-shell -i bash -p qemu_kvm OVMF curl coreutils gnugrep gawk
 # Try Omarchy Quattro in QEMU/KVM without touching the host install.
-# Usage: ./scripts/try-omarchy.sh
-# Optional env:
+#
+#   ./scripts/try-omarchy.sh
+#
+# Env overrides:
 #   OMARCHY_ISO_URL  OMARCHY_ISO_DIR  OMARCHY_DISK_SIZE  OMARCHY_RAM_MB  OMARCHY_CPUS
 set -euo pipefail
 
@@ -14,11 +16,9 @@ DISK_PATH="$ISO_DIR/omarchy-quatro.qcow2"
 DISK_SIZE="${OMARCHY_DISK_SIZE:-40G}"
 RAM_MB="${OMARCHY_RAM_MB:-8192}"
 CPUS="${OMARCHY_CPUS:-4}"
-OVMF_CODE="${OVMF_CODE:-}"
-OVMF_VARS_TEMPLATE="${OVMF_VARS_TEMPLATE:-}"
 
 if [[ ! -r /dev/kvm ]]; then
-  echo "No /dev/kvm — enable KVM or run without -enable-kvm (slow)." >&2
+  echo "Warning: no /dev/kvm access — will be slow (tcg)." >&2
 fi
 
 mkdir -p "$ISO_DIR"
@@ -56,23 +56,19 @@ if [[ ! -f "$DISK_PATH" ]]; then
   qemu-img create -f qcow2 "$DISK_PATH" "$DISK_SIZE"
 fi
 
-# Prefer firmware from a throwaway nix shell if not set
-if [[ -z "$OVMF_CODE" ]]; then
-  OVMF_CODE="$(
-    nix-build --no-out-link -E 'with import <nixpkgs> {}; OVMF.fd' 2>/dev/null \
-      | head -1
-  )/FV/OVMF_CODE.fd" || true
-fi
-if [[ -z "$OVMF_VARS_TEMPLATE" ]]; then
-  OVMF_VARS_TEMPLATE="$(
-    nix-build --no-out-link -E 'with import <nixpkgs> {}; OVMF.fd' 2>/dev/null \
-      | head -1
-  )/FV/OVMF_VARS.fd" || true
+# OVMF from nix-shell -p OVMF (fd output)
+OVMF_CODE=""
+OVMF_VARS_SRC=""
+# OVMF.fd from nix-shell -p OVMF lands on NIX_PROFILES / store paths
+fd=$(nix-build --no-out-link -A OVMF.fd '<nixpkgs>' 2>/dev/null || true)
+if [[ -n "$fd" && -f "$fd/FV/OVMF_CODE.fd" ]]; then
+  OVMF_CODE="$fd/FV/OVMF_CODE.fd"
+  OVMF_VARS_SRC="$fd/FV/OVMF_VARS.fd"
 fi
 
 VARS_PATH="$ISO_DIR/OVMF_VARS.fd"
-if [[ -n "$OVMF_VARS_TEMPLATE" && -f "$OVMF_VARS_TEMPLATE" && ! -f "$VARS_PATH" ]]; then
-  cp "$OVMF_VARS_TEMPLATE" "$VARS_PATH"
+if [[ -n "$OVMF_VARS_SRC" && -f "$OVMF_VARS_SRC" && ! -f "$VARS_PATH" ]]; then
+  cp "$OVMF_VARS_SRC" "$VARS_PATH"
   chmod u+w "$VARS_PATH"
 fi
 
@@ -96,15 +92,15 @@ if [[ -n "$OVMF_CODE" && -f "$OVMF_CODE" && -f "$VARS_PATH" ]]; then
     -drive "if=pflash,format=raw,readonly=on,file=$OVMF_CODE"
     -drive "if=pflash,format=raw,file=$VARS_PATH"
   )
+  echo "UEFI firmware: $OVMF_CODE"
 else
-  echo "Note: OVMF not found; booting SeaBIOS. For UEFI:" >&2
-  echo "  nix-shell -p OVMF --run 'echo \$OVMF/FV'" >&2
+  echo "Note: booting without OVMF (SeaBIOS). Omarchy prefers UEFI." >&2
 fi
 
 echo
-echo "Starting Omarchy trial VM (host NixOS untouched)."
-echo "  Disk/ISO: $ISO_DIR"
-echo "  Install into the virtual disk only. Ctrl+C stops the VM."
+echo "Starting Omarchy trial VM — host NixOS untouched."
+echo "  Artifacts: $ISO_DIR"
+echo "  Install into the virtual disk only. Close the window or Ctrl+C to stop."
 echo
 
 exec qemu-system-x86_64 "${QEMU_ARGS[@]}"
