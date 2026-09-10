@@ -38,6 +38,11 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    grok-bot = {
+      url = "github:jordangarrison/grok-bot-flake";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    omarchy-nix.url = "github:zicochaos/omarchy-nix";
   };
 
   outputs = inputs:
