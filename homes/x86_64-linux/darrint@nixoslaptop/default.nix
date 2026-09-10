@@ -57,6 +57,7 @@ in
   darrint.neovim.enable = true;
   darrint.gui.enable = true;
   darrint.frc.enable = true;
+  darrint.grok-bot.enable = true;
 
   programs.dank-material-shell = {
     enable = true;

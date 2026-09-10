@@ -21,10 +21,9 @@ in
     # Electron/Chromium Wayland (niri); grok-bot wrapper honors this
     home.sessionVariables.NIXOS_OZONE_WL = "1";
 
-    # sand:// login redirects → grok-bot after first install/login
-    xdg.mimeApps = {
-      enable = true;
-      defaultApplications."x-scheme-handler/sand" = [ "grok-bot.desktop" ];
-    };
+    # Do not enable xdg.mimeApps here — it owns mimeapps.list and clobbers
+    # existing unmanaged defaults (browsers, etc.). After install, either:
+    #   xdg-mime default grok-bot.desktop x-scheme-handler/sand
+    # or let the app register sand:// on first launch.
   };
 }
