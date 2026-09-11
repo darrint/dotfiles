@@ -1,0 +1,6 @@
+vendor: Dell Inc.
+model: Precision 7520
+cpu: Intel Core i7-6820HQ
+gpu-intel: Skylake-H GT2 HD Graphics 530
+gpu-nvidia: Quadro M1200 Mobile (GM107GLM) — needs nvidia-580xx
+nvme: Micron/Crucial P310

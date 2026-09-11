@@ -1,0 +1,7 @@
+# Paths relative to $HOME that this machine profile overlays.
+# Capture copies these from ~ into overlay/. Restore copies overlay/ back to ~.
+.config/hypr/input.lua
+.config/hypr/monitors.lua
+.config/omarchy/shell.json
+.config/mise/config.toml
+.config/git/config

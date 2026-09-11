@@ -1,0 +1,5 @@
+hostname: darrint-laptop
+os: Omarchy 4.0.3
+omarchy: 4.0.3-1
+theme: Lupine
+default-agent: opencode
