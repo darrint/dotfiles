@@ -23,6 +23,7 @@
         PORT = 1411;
         ANALYTICS_DISABLED = true;
         VERSION_CHECK_DISABLED = true;
+        EMAILS_VERIFIED = true;
       };
       credentials = {
         ENCRYPTION_KEY = config.sops.secrets.pocket_id_encryption_key.path;
