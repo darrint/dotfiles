@@ -43,6 +43,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     omarchy-nix.url = "github:zicochaos/omarchy-nix";
+    # Uses its own nixpkgs; do not follow — uv2nix + unstable
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
   outputs = inputs:
@@ -61,6 +63,7 @@
         inputs.sops-nix.nixosModules.sops
         inputs.authentik-nix.nixosModules.default
         inputs.disko.nixosModules.disko
+        inputs.hermes-agent.nixosModules.default
       ];
       homes.modules = [
         inputs.sops-nix.homeManagerModules.sops
