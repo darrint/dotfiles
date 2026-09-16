@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }: {
   home.stateVersion = "24.11";
@@ -17,6 +18,7 @@
     pkgs.curl
     pkgs.cachix
     pkgs.uv
+    inputs.numtide-ai-tools.packages.${pkgs.system}.herdr
   ];
 
   # Let Home Manager install and manage itself.
