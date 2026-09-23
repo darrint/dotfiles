@@ -12,6 +12,7 @@
     ./caddy.nix
     ./jellyfin.nix
     ./terraria.nix
+    ./chore-stars.nix
   ];
 
   # Bootloader.

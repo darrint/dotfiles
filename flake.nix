@@ -45,6 +45,7 @@
     omarchy-nix.url = "github:zicochaos/omarchy-nix";
     # Uses its own nixpkgs; do not follow — uv2nix + unstable
     hermes-agent.url = "github:NousResearch/hermes-agent";
+    chore-stars.url = "github:darrint/chore-stars";
   };
 
   outputs = inputs:
@@ -64,6 +65,7 @@
         inputs.authentik-nix.nixosModules.default
         inputs.disko.nixosModules.disko
         inputs.hermes-agent.nixosModules.default
+        inputs.chore-stars.nixosModules.default
       ];
       homes.modules = [
         inputs.sops-nix.homeManagerModules.sops
