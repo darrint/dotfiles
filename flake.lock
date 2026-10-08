@@ -119,11 +119,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1790211151,
-        "narHash": "sha256-qhzoF0HCpf7TPXRckMWMHkJ3lTedVy1n9bitUy5vwVs=",
+        "lastModified": 1791461969,
+        "narHash": "sha256-8zHScA5/GJ/i28VoLmE4IXMqCmf/JxGfP8e3ItUMmZA=",
         "owner": "darrint",
         "repo": "chore-stars",
-        "rev": "8dc3c3164677085f4be15dce9c1514bffbd03045",
+        "rev": "064d6dbcbe183b139b6020447e4e6caf31e0af81",
         "type": "github"
       },
       "original": {
@@ -1225,11 +1225,11 @@
     },
     "nixpkgs_6": {
       "locked": {
-        "lastModified": 1790113641,
-        "narHash": "sha256-D2aaQetafdpHxbwA4ldAxs51UX0b11pXL+JL/5L8VrM=",
+        "lastModified": 1791426274,
+        "narHash": "sha256-MWhktfFtFE8Jl7bf9Pkp7TR5MSdYCjCswSo0Gkb4ywc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1bc55b9def8165e82073919945c3239903fe4dc2",
+        "rev": "7c8764b7c7b09b34f632464276218ef9090eaa11",
         "type": "github"
       },
       "original": {

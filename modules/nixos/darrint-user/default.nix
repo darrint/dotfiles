@@ -24,6 +24,18 @@ in
   };
 
   config = {
+    security.polkit.enable = true;
+
+    # polkit 127's socket helper sees pkexec's euid (0) and rejects the cookie.
+    # https://github.com/polkit-org/polkit/issues/686
+    systemd.sockets.polkit-agent-helper.enable = lib.mkForce false;
+    security.wrappers.polkit-agent-helper-1 = {
+      setuid = true;
+      owner = "root";
+      group = "root";
+      source = "${config.security.polkit.package.out}/lib/polkit-1/polkit-agent-helper-1";
+    };
+
     users.users.darrint = {
       isNormalUser = true;
       uid = lib.mkIf (cfg.uid != null) cfg.uid;
