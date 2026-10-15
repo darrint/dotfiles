@@ -6,7 +6,7 @@
   home.stateVersion = "24.11";
   home.packages = [
     pkgs.killall
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
     pkgs.devenv
     pkgs.lolcat
     pkgs.figlet
@@ -18,7 +18,7 @@
     pkgs.curl
     pkgs.cachix
     pkgs.uv
-    inputs.numtide-ai-tools.packages.${pkgs.system}.herdr
+    inputs.numtide-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}.herdr
   ];
 
   # Let Home Manager install and manage itself.
@@ -33,13 +33,13 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."*" = {
-      addKeysToAgent = "yes";
-      serverAliveInterval = 60;
-      serverAliveCountMax = 3;
-      controlMaster = "auto";
-      controlPath = "~/.ssh/master-%r@%n:%p";
-      controlPersist = "10m";
+    settings."*" = {
+      AddKeysToAgent = "yes";
+      ServerAliveInterval = 60;
+      ServerAliveCountMax = 3;
+      ControlMaster = "auto";
+      ControlPath = "~/.ssh/master-%r@%n:%p";
+      ControlPersist = "10m";
     };
   };
   programs.starship = {

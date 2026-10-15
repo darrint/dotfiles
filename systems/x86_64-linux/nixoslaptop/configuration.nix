@@ -37,7 +37,7 @@
 
   # x-plane-11 is a local flake package, so it stays here
   environment.systemPackages = [
-    inputs.self.packages.${pkgs.system}.x-plane-11
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.x-plane-11
     pkgs.libreoffice
   ];
 

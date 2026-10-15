@@ -30,7 +30,7 @@ in {
       wpilib.vscode-wpilib
     ];
 
-    programs.vscode.extensions = [
+    programs.vscode.profiles.default.extensions = [
       pkgs.vscode-extensions.wpilibsuite.vscode-wpilib
     ];
   };

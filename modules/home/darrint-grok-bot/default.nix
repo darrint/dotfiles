@@ -15,7 +15,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      inputs.grok-bot.packages.${pkgs.system}.default
+      inputs.grok-bot.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     # Electron/Chromium Wayland (niri); grok-bot wrapper honors this
