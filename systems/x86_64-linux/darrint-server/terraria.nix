@@ -1,8 +1,4 @@
 {pkgs, ...}: {
-  nixpkgs.config.permittedInsecurePackages = [
-    "dotnet-sdk-6.0.428"
-    "dotnet-runtime-6.0.36"
-  ];
   users.users.terraria = {
     isSystemUser = true;
     group = "terraria";
@@ -20,6 +16,17 @@
       WorkingDirectory = "/var/lib/terraria";
       ExecStart = "${pkgs.tshock}/bin/TShock.Server -world /var/lib/terraria/World.wld -autocreate 2 -port 7777 -maxplayers 16";
       Restart = "on-failure";
+      ProtectSystem = "strict";
+      ReadWritePaths = "/var/lib/terraria";
+      NoNewPrivileges = true;
+      PrivateTmp = true;
+      ProtectHome = true;
+      PrivateDevices = true;
+      ProtectKernelTunables = true;
+      ProtectKernelModules = true;
+      ProtectControlGroups = true;
+      RestrictSUIDSGID = true;
+      LockPersonality = true;
     };
   };
 

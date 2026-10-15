@@ -2,7 +2,6 @@
   systemd.services.postgresql-setup.preStart = ''
     ${config.services.postgresql.package}/bin/psql -d postgres -c "ALTER DATABASE template1 REFRESH COLLATION VERSION;"
     ${config.services.postgresql.package}/bin/psql -d postgres -c "ALTER DATABASE postgres REFRESH COLLATION VERSION;"
-    ${config.services.postgresql.package}/bin/psql -d postgres -c "ALTER DATABASE authentik REFRESH COLLATION VERSION;" || true
   '';
 
   sops.secrets = {

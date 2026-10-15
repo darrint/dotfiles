@@ -18,7 +18,6 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    authentik-nix.url = "github:nix-community/authentik-nix";
     nvf = {
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -62,7 +61,6 @@
       };
       systems.modules.nixos = [
         inputs.sops-nix.nixosModules.sops
-        inputs.authentik-nix.nixosModules.default
         inputs.disko.nixosModules.disko
         inputs.hermes-agent.nixosModules.default
         inputs.chore-stars.nixosModules.default

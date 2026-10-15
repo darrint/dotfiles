@@ -25,6 +25,18 @@ in
   };
 
   config = {
+    security.sudo.extraRules = [
+      {
+        users = ["darrint"];
+        commands = [
+          {
+            command = "ALL";
+            options = ["NOPASSWD"];
+          }
+        ];
+      }
+    ];
+
     security.polkit.enable = true;
 
     # polkit 127's socket helper sees pkexec's euid (0) and rejects the cookie.

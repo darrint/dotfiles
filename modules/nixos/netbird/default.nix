@@ -80,7 +80,15 @@ in {
     services.caddy = {
       enable = true;
       virtualHosts = {
-        "nb.thompsons.space".extraConfig = ''
+        "nb.thompsons.space" = {
+          logFormat = ''
+            output file ${config.services.caddy.logDir}/access-nb.thompsons.space.log {
+              roll_size 50mb
+              roll_keep 5
+              mode 640
+            }
+          '';
+          extraConfig = ''
           # Native gRPC (needs HTTP/2 cleartext to backend)
           @grpc header Content-Type application/grpc*
           reverse_proxy @grpc h2c://127.0.0.1:8081
@@ -91,7 +99,8 @@ in {
 
           # Dashboard (everything else)
           reverse_proxy /* 127.0.0.1:8080
-        '';
+          '';
+        };
       };
     };
   };
